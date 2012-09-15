@@ -61,7 +61,7 @@ io.sockets.on('connection', function (socket) {
 var schedule = [];
 for (var i = 0; i < 100; i += 1) {
 	var col = Math.sin(i / 100 * Math.PI) * 255.0;
-	schedule.push({ time: 50, color: col });
+	schedule.push({ time: 250, color: col });
 }
 
 function execute(i) {
