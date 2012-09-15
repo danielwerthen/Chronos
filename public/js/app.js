@@ -4,10 +4,11 @@ $(function () {
 		socket.emit('ping', data);
 	});
 	socket.on('color', function (col) {
+		canvas.html(JSON.stringify(col));
 		color = col;
 	});
 	var canvas = $('#canvas');
-	var processingInstance = new Processing(canvas[0], setColor);
+	//var processingInstance = new Processing(canvas[0], setColor);
 });
 
 var color = [0,0,0];
