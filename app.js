@@ -61,7 +61,15 @@ io.sockets.on('connection', function (socket) {
 var schedule = [];
 for (var i = 0; i < 100; i += 1) {
 	var col = Math.sin(i / 100 * Math.PI) * 255.0;
-	schedule.push({ time: 250, color: col });
+	schedule.push({ time: 2000, color: col });
+}
+
+function executePlayer(idx, next) {
+	var p = players[idx];
+	setTimeout(function () {
+		console.log(idx);
+		p.setColor(next.color);
+	}, next.time - p.delay)
 }
 
 function execute(i) {
@@ -70,11 +78,7 @@ function execute(i) {
 		i = 0;
 	next = schedule[i];
 	for (var idx in players) {
-		var p = players[idx];
-
-		setTimeout(function () {
-			p.setColor(next.color);
-		}, next.time - p.delay)
+		executePlayer(idx, next);
 	}
 	_.delay(function () { execute(i + 1); }, next.time);
 }
