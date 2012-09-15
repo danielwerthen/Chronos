@@ -1,0 +1,21 @@
+doctype 5
+html
+	head
+		meta(charset='utf-8')
+		title Chronos
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		meta(name='description')
+		meta(name='author')
+		link(href='/css/less/bootstrap.css', rel='stylesheet')
+		link(href='/css/bootstrap-responsive.css', rel='stylesheet')
+		link(rel='stylesheet', href='/css/style.css')
+
+	body
+		.container
+			block content
+		block scripts
+			script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+			script(src='/js/bootstrap.js')
+			script(src='/js/processing-1.4.1.min.js')
+			script(src='/socket.io/socket.io.js')
+			script(src='/js/app.js')
