@@ -6,8 +6,8 @@
 		, display = document.getElementById('display')
 
 	setInterval(function () {
-		display.innerText = '' + (new Date) + ' \n' + new Date(currentTime());
-	}, 50);
+		display.innerText = '' + (new Date) + ' ms: ' + (new Date).getTime() + '\n' + new Date(currentTime()) + ' ms: ' + currentTime;
+	}, 20);
 	
 	ping(socket, function (delay) {
 		latency = delay;
