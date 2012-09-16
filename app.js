@@ -36,6 +36,14 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/admin', function (req, res) {
+  res.render('admin', { title: 'Express' });
+});
+
+app.get('/admin/flash', function (req, res) {
+	io.sockets.emit('flash', { at: (new Date).getTime() + 500 });
+	res.end(JSON.stringify({'result': 'ok'}));
+});
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

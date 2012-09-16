@@ -1,0 +1,10 @@
+extends admin-layout
+
+block content
+	.hero-unit
+		h1 Chronos - dashboard
+		p Use this button to trigger a synchronized flash. (After 500ms)
+		p
+			a.btn.btn-danger.async(href='/admin/flash') Flash
+	#viewport.iphone
+		iframe#displayframe(height='480', width='320', src='/')

@@ -5,9 +5,9 @@
 		, currentTime = function () { return (new Date).getTime() - timeOffset; }
 		, display = document.getElementById('display')
 
-	setInterval(function () {
+	/*setInterval(function () {
 		display.innerText = '' + (new Date) + ' ms: ' + (new Date).getTime() + '\n' + new Date(currentTime()) + ' ms: ' + currentTime() + ' offsetted by: ' + timeOffset + 'ms, latency: ' + latency + 'ms';
-	}, 200);
+	}, 200);*/
 	
 	ping(socket, function (delay) {
 		latency = delay;
@@ -33,7 +33,6 @@
 		socket.on('time', function (data) {
 			if (measurement)
 				measurement(data.now);
-
 		});
 	}
 
@@ -48,17 +47,33 @@
 					color = '#000',
 					filled = true,
 					radius = 1;
-		return jc.rect(0,50, width, height, color, filled);
+		return jc.rect(0,0, width, height, color, filled);
 			/*.animate({color:'#000000'}, 200, function () {
 				this.del();
 			});*/
 	}
 
+	socket.on('flash', function (data) {
+		var when = data.at - currentTime()
+		if (when < 1)
+			return;
+		if (when < 50)
+			flash(when);
+		else
+			setTimeout(function () { flash() }, when - 50);
+	});
+
+	function flash(when) {
+		when = when || 50;
+		canvas.animate({color: '#FFF'}, when, function () {
+			canvas.animate({color: '#000'}, 250);
+		});
+	}
+
+	var canvas;
 	function start() {
-		return;
 		jc.start(idCanvas, true);
-		var rect = drawRect();
-		rect.animate({color:'#aaa'}, 1000);
+		canvas = drawRect();
 	}
 
 	var interval_1=0;

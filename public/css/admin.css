@@ -1,0 +1,21 @@
+#viewport {
+  margin: auto;
+}
+#viewport.iphone {
+  border-top: 65px solid;
+  border-right: 35px solid;
+  border-bottom: 65px solid;
+  border-left: 35px solid;
+  border-radius: 20px;
+}
+.iphone,
+.iphone iframe {
+  width: 320px;
+  height: 480px;
+}
+iframe {
+  background-color: white;
+  position: absolute;
+  margin: auto;
+  border: none;
+}
