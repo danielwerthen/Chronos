@@ -57,7 +57,7 @@
 		var when = data.at - currentTime()
 		if (when < 1)
 			return;
-		if (when < 5
+		if (when < 5)
 			flash(data.open, data.close);
 		else
 			setTimeout(function () { flash(data.open, data.close) }, when);
