@@ -6,7 +6,7 @@
 		, display = document.getElementById('display')
 
 	setInterval(function () {
-		display.innerText = '' + (new Date) + ' ms: ' + (new Date).getTime() + '\n' + new Date(currentTime()) + ' ms: ' + currentTime;
+		display.innerText = '' + (new Date) + ' ms: ' + (new Date).getTime() + '\n' + new Date(currentTime()) + ' ms: ' + currentTime();
 	}, 20);
 	
 	ping(socket, function (delay) {
