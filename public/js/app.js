@@ -7,7 +7,7 @@
 
 	setInterval(function () {
 		display.innerText = '' + (new Date) + ' ms: ' + (new Date).getTime() + '\n' + new Date(currentTime()) + ' ms: ' + currentTime() + ' offsetted by: ' + timeOffset + 'ms, latency: ' + latency + 'ms';
-	}, 20);
+	}, 200);
 	
 	ping(socket, function (delay) {
 		latency = delay;
@@ -55,6 +55,7 @@
 	}
 
 	function start() {
+		return;
 		jc.start(idCanvas, true);
 		var rect = drawRect();
 		rect.animate({color:'#aaa'}, 1000);
