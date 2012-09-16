@@ -10,6 +10,7 @@ var express = require('express')
   , path = require('path')
 	, socketio = require('socket.io')
 	, ping = require('./ping')
+	, time = require('./time')
 	, _ = require('underscore')
 
 var app = express();
@@ -44,6 +45,7 @@ var io = socketio.listen(server);
 
 io.sockets.on('connection', function (socket) {
 	ping.respond(socket);
+	time.server(socket);
 	socket.on('disconnect', function () {
 		/*var idx = players.indexOf(player);
 		if (!idx)

@@ -1,6 +1,19 @@
 (function () {
-	var socket = io.connect('/');
+	var socket = io.connect('/')
+		, latency = 0
+		, timeOffset = 0
+		, currentTime = function () { return (new Date).getTime() - timeOffset; }
+		, display = document.getElementById('display')
+
+	setInterval(function () {
+		display.innerText = '' + (new Date) + ' \n' + new Date(currentTime());
+	}, 50);
+	
 	ping(socket, function (delay) {
+		latency = delay;
+	});
+	time(socket, function (serverNow) {
+		timeOffset = (new Date).getTime() - (serverNow + latency);
 	});
 	var canvas = document.getElementById('canvas');
 
@@ -15,43 +28,38 @@
 			socket.emit('ping', { time: (new Date).getTime() });
 		}, 2000);
 	}
+
+	function time(socket, measurement) {
+		socket.on('time', function (data) {
+			if (measurement)
+				measurement(data.now);
+
+		});
+	}
+
+	var idCanvas = 'canvas';
+	function drawRect() {
+			var r = Math.floor(Math.random() * (254)),
+					g = Math.floor(Math.random() * (254)),
+					b = Math.floor(Math.random() * (254)),
+					width = 1000000,
+					height = 1000000,
+					//color = "rgba("+r+", "+g+", "+b+", 0.5)",
+					color = '#000',
+					filled = true,
+					radius = 1;
+		return jc.rect(0,50, width, height, color, filled);
+			/*.animate({color:'#000000'}, 200, function () {
+				this.del();
+			});*/
+	}
+
+	function start() {
+		jc.start(idCanvas, true);
+		var rect = drawRect();
+		rect.animate({color:'#aaa'}, 1000);
+	}
+
+	var interval_1=0;
+	document.onload = start()
 })();
-
-var interval_1=0;
-var idCanvas = 'canvas';
-document.onload = onload_1()
-function startShow()
-{
-    var r = Math.floor(Math.random() * (254)),
-        g = Math.floor(Math.random() * (254)),
-        b = Math.floor(Math.random() * (254)),
-        x = Math.floor(Math.random() * (439)),
-        y = Math.floor(Math.random() * (554)),
-        color = "rgba("+r+", "+g+", "+b+", 0.5)",
-        filled = true,
-        radius = 1;
-    jc.circle(x, y, radius, color, filled)
-        .animate({radius:100, opacity:0}, 1500, function(){
-            this.del();
-        });
-}
-
-function onload_1()
-{
-    jc.start(idCanvas, true);
-    interval_1 = setInterval(startShow, 200);
-}
-
-function start_1(idCanvas)
-{
-    if(interval_1)return;
-    onload_1();
-}
-
-function stop_1(idCanvas)
-{
-    clearInterval(interval_1);
-    interval_1 = 0;
-    jc.clear(idCanvas);
-}
-
