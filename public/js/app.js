@@ -1,58 +1,57 @@
-$(function () {
+(function () {
 	var socket = io.connect('/');
 	ping(socket, function (delay) {
-		canvas.html(delay);
 	});
-	socket.on('color', function (col) {
-		//canvas.html(JSON.stringify(col));
-		color = col;
-	});
-	var canvas = $('#canvas');
-	//var processingInstance = new Processing(canvas[0], setColor);
-});
+	var canvas = document.getElementById('canvas');
 
-function ping(socket, measurement) {
-	socket.on('ping', function (data) {
-		var delay = (new Date).getTime() - data.time;
-		if (measurement)
-			measurement(delay / 2);
-	});
-	socket.emit('ping', { time: (new Date).getTime() });
-	setInterval(function () {
+	function ping(socket, measurement) {
+		socket.on('ping', function (data) {
+			var delay = (new Date).getTime() - data.time;
+			if (measurement)
+				measurement(delay / 2);
+		});
 		socket.emit('ping', { time: (new Date).getTime() });
-	}, 2000);
+		setInterval(function () {
+			socket.emit('ping', { time: (new Date).getTime() });
+		}, 2000);
+	}
+})();
+
+var interval_1=0;
+var idCanvas = 'canvas';
+document.onload = onload_1()
+function startShow()
+{
+    var r = Math.floor(Math.random() * (254)),
+        g = Math.floor(Math.random() * (254)),
+        b = Math.floor(Math.random() * (254)),
+        x = Math.floor(Math.random() * (439)),
+        y = Math.floor(Math.random() * (554)),
+        color = "rgba("+r+", "+g+", "+b+", 0.5)",
+        filled = true,
+        radius = 1;
+    jc.circle(x, y, radius, color, filled)
+        .animate({radius:100, opacity:0}, 1500, function(){
+            this.del();
+        });
 }
 
-var color = [0,0,0];
-function setColor(processing) {
-	processing.draw = function () {
-		processing.background.apply(processing, color);
-	};
+function onload_1()
+{
+    jc.start(idCanvas, true);
+    interval_1 = setInterval(startShow, 200);
 }
 
-function sketchProc(processing) {
-	processing.draw = function () {
-		var centerX = processing.width / 2, centerY = processing.height / 2;
-		var maxArmLength = Math.min(centerX, centerY);
-
-		function drawArm(position, lengthScale, weight) {
-			processing.strokeWeight(weight);
-			processing.line(centerX, centerY,
-				centerX + Math.sin(position * 2 * Math.PI) * lengthScale * maxArmLength,
-				centerY - Math.cos(position * 2 * Math.PI) * lengthScale * maxArmLength);
-		}
-
-		processing.background(224);
-
-		var now = new Date();
-
-		var hoursPosition = (now.getHours() % 12 + now.getMinutes() / 60) / 12;
-		drawArm(hoursPosition, 0.5, 5);
-
-		var minutesPosition = (now.getMinutes() + now.getSeconds() / 60) / 60;
-		drawArm(minutesPosition, 0.80, 3);
-
-		var secondsPosition = now.getSeconds() / 60;
-		drawArm(secondsPosition, 0.90, 1);
-	};
+function start_1(idCanvas)
+{
+    if(interval_1)return;
+    onload_1();
 }
+
+function stop_1(idCanvas)
+{
+    clearInterval(interval_1);
+    interval_1 = 0;
+    jc.clear(idCanvas);
+}
+
