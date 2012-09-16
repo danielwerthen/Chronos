@@ -41,9 +41,27 @@ app.get('/admin', function (req, res) {
 });
 
 app.get('/admin/flash', function (req, res) {
-	io.sockets.emit('flash', { at: (new Date).getTime() + 500 });
+	io.sockets.emit('flash', { 
+		at: (new Date).getTime() + settings.delay
+		, open: settings.open
+		, close: settings.close
+	});
 	res.end(JSON.stringify({'result': 'ok'}));
 });
+
+app.post('/admin/set', function (req, res) {
+	try {
+	settings.delay = parseFloat(req.body.delay);
+	settings.open = parseFloat(req.body.open);
+	settings.close = parseFloat(req.body.close);
+	} 
+	catch (e) {
+	}
+	res.redirect('/admin');
+});
+
+var settings = { delay: 500, open: 50, close: 250 };
+app.locals.settings = settings;
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

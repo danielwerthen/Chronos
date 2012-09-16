@@ -3,8 +3,29 @@ extends admin-layout
 block content
 	.hero-unit
 		h1 Chronos - dashboard
-		p Use this button to trigger a synchronized flash. (After 500ms)
+		p Use this button to trigger a synchronized flash. 
 		p
 			a.btn.btn-danger.async(href='/admin/flash') Flash
-	#viewport.iphone
-		iframe#displayframe(height='480', width='320', src='/')
+	.row-fluid
+		.span4.offset1
+			h2 Settings
+			form#settings(action='/admin/set', method='POST')
+				.control-group
+					label.control-label(for='delay-form') Delay
+					.input-append
+						input#delay-form(name='delay', size='16', type='text', value=settings.delay)
+						span.add-on ms
+				.control-group
+					label.control-label(for='open-form') Opening
+					.input-append
+						input#open-form(name='open', size='16', type='text', value=settings.open)
+						span.add-on ms
+				.control-group
+					label.control-label(for='close-form') Closing
+					.input-append
+						input#close-form(name='close', size='16', type='text', value=settings.close)
+						span.add-on ms
+				input(type='submit')
+		.span6
+			#viewport.iphone
+				iframe#displayframe(height='480', width='320', src='/')

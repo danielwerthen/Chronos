@@ -57,16 +57,16 @@
 		var when = data.at - currentTime()
 		if (when < 1)
 			return;
-		if (when < 50)
-			flash(when);
+		if (when < 5
+			flash(data.open, data.close);
 		else
-			setTimeout(function () { flash() }, when - 50);
+			setTimeout(function () { flash(data.open, data.close) }, when);
 	});
 
-	function flash(when) {
-		when = when || 50;
-		canvas.animate({color: '#FFF'}, when, function () {
-			canvas.animate({color: '#000'}, 250);
+	function flash(open, close) {
+		open = open || 50;
+		canvas.animate({color: '#FFF'}, open, function () {
+			canvas.animate({color: '#000'}, close);
 		});
 	}
 
