@@ -43,7 +43,7 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 var io = socketio.listen(server);
 
 io.sockets.on('connection', function (socket) {
-	ping.server(socket);
+	ping.respond(socket);
 	socket.on('disconnect', function () {
 		/*var idx = players.indexOf(player);
 		if (!idx)

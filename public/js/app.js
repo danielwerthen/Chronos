@@ -17,9 +17,10 @@ function ping(socket, measurement) {
 		if (measurement)
 			measurement(delay / 2);
 	});
+	socket.emit('ping', { time: (new Date).getTime() });
 	setInterval(function () {
 		socket.emit('ping', { time: (new Date).getTime() });
-	}, 1000);
+	}, 2000);
 }
 
 var color = [0,0,0];
