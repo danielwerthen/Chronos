@@ -1,15 +1,26 @@
 $(function () {
 	var socket = io.connect('/');
-	socket.on('ping', function (data) {
-		socket.emit('ping', data);
+	ping(socket, function (delay) {
+		canvas.html(delay);
 	});
 	socket.on('color', function (col) {
-		canvas.html(JSON.stringify(col));
+		//canvas.html(JSON.stringify(col));
 		color = col;
 	});
 	var canvas = $('#canvas');
 	//var processingInstance = new Processing(canvas[0], setColor);
 });
+
+function ping(socket, measurement) {
+	socket.on('ping', function (data) {
+		var delay = (new Date).getTime() - data.time;
+		if (measurement)
+			measurement(delay / 2);
+	});
+	setInterval(function () {
+		socket.emit('ping', { time: (new Date).getTime() });
+	}, 1000);
+}
 
 var color = [0,0,0];
 function setColor(processing) {

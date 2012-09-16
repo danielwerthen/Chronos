@@ -13,3 +13,9 @@ exports.server = function (socket, measurement) {
 		socket.emit('ping', { time: (new Date).getTime() });
 	}, 1000);
 };
+
+exports.respond = function (socket) {
+	socket.on('ping', function (data) {
+		socket.emit('ping', data);
+	});
+};

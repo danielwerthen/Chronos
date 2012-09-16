@@ -42,45 +42,12 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 
 var io = socketio.listen(server);
 
-var players = [];
 io.sockets.on('connection', function (socket) {
-	var player = { 
-		delay: 0
-		, setColor: function (col) { socket.emit('color', [ col ]); } };
-	ping.server(socket, function (_delay) {
-		player.delay = _delay;
-	});
-	players.push(player);
+	ping.server(socket);
 	socket.on('disconnect', function () {
-		var idx = players.indexOf(player);
+		/*var idx = players.indexOf(player);
 		if (!idx)
-			players.splice(idx, 1);
+			players.splice(idx, 1);*/
 	});
 });
-
-var schedule = [];
-for (var i = 0; i < 100; i += 1) {
-	var col = Math.sin(i / 100 * Math.PI) * 255.0;
-	schedule.push({ time: 2000, color: col });
-}
-
-function executePlayer(idx, next) {
-	var p = players[idx];
-	setTimeout(function () {
-		console.log(idx);
-		p.setColor(next.color);
-	}, next.time - p.delay)
-}
-
-function execute(i) {
-	var next = {};
-	if (i >= schedule.length)
-		i = 0;
-	next = schedule[i];
-	for (var idx in players) {
-		executePlayer(idx, next);
-	}
-	_.delay(function () { execute(i + 1); }, next.time);
-}
-execute(0);
 
