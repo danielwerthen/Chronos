@@ -51,9 +51,9 @@ app.get('/admin/flash', function (req, res) {
 
 app.post('/admin/set', function (req, res) {
 	try {
-	settings.delay = parseFloat(req.body.delay);
-	settings.open = parseFloat(req.body.open);
-	settings.close = parseFloat(req.body.close);
+		settings.delay = parseFloat(req.body.delay);
+		settings.open = parseFloat(req.body.open);
+		settings.close = parseFloat(req.body.close);
 	} 
 	catch (e) {
 	}
@@ -67,15 +67,67 @@ var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-var io = socketio.listen(server);
+var io = socketio.listen(server)
+	, users = []
+	, userCount = 0
+	, update = false
+
+function getLocation(x, y) {
+	x = x || Math.random();
+	y = y || Math.random();
+	return { x: limit(x), y: limit(y) };
+}
+
+function isValidCoord(x) {
+	return x && _.isNumber(x);
+}
+
+function limit(x) {
+	if (x > 1.0)
+		return 1.0;
+	if (x < 0)
+		return 0;
+	return x;
+}
 
 io.sockets.on('connection', function (socket) {
+	var user = { socket: socket
+		, id: userCount++ 
+	};
+	user.location = getLocation();
+
 	ping.respond(socket);
 	time.server(socket);
-	socket.on('disconnect', function () {
-		/*var idx = players.indexOf(player);
-		if (!idx)
-			players.splice(idx, 1);*/
+
+	users.push(user);
+	update = true;
+
+	socket.on('move', function (loc) {
+		if (isValidCoord(loc.x) && isValidCoord(loc.y)) {
+			user.location = getLocation(loc.x, loc.y);
+			update = true;
+		}
 	});
+
+	socket.on('disconnect', function () {
+		var idx = users.indexOf(user);
+		if (!idx) {
+			users.splice(idx, 1);
+			update = true;
+		}
+	});
+
 });
+
+setInterval(function () {
+	if (!update)
+		return;	
+	var data = { 
+		at: (new Date).getTime() + 1000,
+		users: _.map(users, function (u) { return { id: u.id, location: u.location } })
+	};
+	io.sockets.emit('update', data);
+	update = false;
+}, 1000);
+
 
