@@ -14,8 +14,10 @@ exports.server = function (socket, measurement) {
 	}, 1000);
 };
 
-exports.respond = function (socket) {
+exports.respond = function (socket, onPinged) {
 	socket.on('ping', function (data) {
 		socket.emit('ping', data);
+		if (onPinged)
+			onPinged();
 	});
 };

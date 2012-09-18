@@ -3,19 +3,21 @@
 		, latency = 0
 		, timeOffset = 0
 		, currentTime = function () { return (new Date).getTime() - timeOffset; }
-		, display = document.getElementById('display')
+		, $canvas = $('#canvas')
 
-	/*setInterval(function () {
-		display.innerText = '' + (new Date) + ' ms: ' + (new Date).getTime() + '\n' + new Date(currentTime()) + ' ms: ' + currentTime() + ' offsetted by: ' + timeOffset + 'ms, latency: ' + latency + 'ms';
-	}, 200);*/
-	
+	function resize() {
+		$canvas.attr('height', window.innerHeight);
+		$canvas.attr('width', window.innerWidth);
+	}
+	resize();
+	$(window).resize(resize);
+
 	ping(socket, function (delay) {
 		latency = delay;
 	});
 	time(socket, function (serverNow) {
 		timeOffset = (new Date).getTime() - (serverNow + latency);
 	});
-	var canvas = document.getElementById('canvas');
 
 	function ping(socket, measurement) {
 		socket.on('ping', function (data) {
@@ -41,10 +43,10 @@
 			var r = Math.floor(Math.random() * (254)),
 					g = Math.floor(Math.random() * (254)),
 					b = Math.floor(Math.random() * (254)),
-					width = 300,
-					height = 150,
+					width = window.innerWidth,
+					height = window.innerHeight,
 					//color = "rgba("+r+", "+g+", "+b+", 0.5)",
-					color = '#000',
+					color = '#131013',
 					filled = true
 
 		return jc.rect(0,0, width, height, color, filled);
@@ -63,10 +65,14 @@
 			setTimeout(function () { flash(data.open, data.close) }, when);
 	});
 
+	socket.on('setPulse', function (data) {
+		pulse = data;
+	});
+
 	function flash(open, close) {
 		open = open || 50;
 		canvas.animate({color: '#FFF'}, open, function () {
-			canvas.animate({color: '#000'}, close);
+			canvas.animate({color: '#131013'}, close);
 		});
 	}
 
@@ -81,37 +87,46 @@
 	var active = {}
 
 	function update(users) {
+		for (var e in active) {
+			if (active[e])
+				active[e].markAsDeleted = true;
+		}
 		for (var e in users) {
 			var usr = users[e];
 			if (!active[usr.id] || !active[usr.id].circle) {
-				console.log(usr);
 				active[usr.id] = {
-					circle: makeCircle(usr.location.x * 300, usr.location.y * 150)
+					circle: makeCircle(usr.location.x * window.innerWidth, usr.location.y * window.innerHeight)
 				};
 			}
 			else {
-				console.log('x: ' + usr.location.x, 'y: ' + usr.location.y);
-				return;
 				var circle = active[usr.id].circle
 					, center = circle.getCenter()
+				active[usr.id].markAsDeleted = false;
 
-				circle.animate({ x: usr.location.x * 300, y: usr.location.y * 150 }, 500);
-				console.log('x: ' + center.x, 'y: ' + center.y);
+				circle.animate({ x: usr.location.x * window.innerWidth, y: usr.location.y * window.innerHeight }, 500);
+			}
+		}
+		for (var e in active) {
+			if (active[e] && active[e].markAsDeleted) {
+				if (active[e].circle)
+					active[e].circle.del();
+				active[e] = undefined;
 			}
 		}
 	}
 
 	function makeCircle(x,y, color) {
-		var circle = jc.circle(x,y,1, color || 'rgba(255,255,255,0.5)', true);
-		pulse(circle);
+		var circle = jc.circle(x,y,10, color || '#FFFFFF', true);
+		pulseAnima(circle);
 		return circle;
 	}
 
-	function pulse(circle) {
-		circle.animate({ radius: 100, opacity:0}, 1500, function () {
-			circle._radius = 1;
-			circle._opacity = 0.5;
-			pulse(circle);
+	var pulse = 1000;
+	function pulseAnima(circle) {
+		circle.animate({ radius: 100, opacity:0}, pulse, {type: 'inOut', fn: 'exp'}, function () {
+			circle._radius = 10;
+			circle._opacity = 1;
+			pulseAnima(circle);
 		});
 	}
 

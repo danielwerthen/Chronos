@@ -54,20 +54,27 @@ app.post('/admin/set', function (req, res) {
 		settings.delay = parseFloat(req.body.delay);
 		settings.open = parseFloat(req.body.open);
 		settings.close = parseFloat(req.body.close);
+		var pulse = parseFloat(req.body.pulse);
+		if (settings.pulse != pulse) {
+			settings.pulse = pulse;
+			io.sockets.emit('setPulse', pulse);
+		}
 	} 
 	catch (e) {
 	}
 	res.redirect('/admin');
 });
 
-var settings = { delay: 500, open: 50, close: 250 };
+var settings = { delay: 500, open: 50, close: 250, pulse: 1000 };
 app.locals.settings = settings;
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-var io = socketio.listen(server)
+var io = socketio.listen(server, {
+	'log level': 0
+})
 	, users = []
 	, userCount = 0
 	, update = false
@@ -91,10 +98,12 @@ function limit(x) {
 }
 
 io.sockets.on('connection', function (socket) {
-	var user = { socket: socket
-		, id: userCount++ 
-	};
+	var user = { 
+		id: userCount++ 
+	}
+	, die = 0
 	user.location = getLocation();
+	socket.emit('setPulse', settings.pulse);
 
 	ping.respond(socket);
 	time.server(socket);
@@ -110,12 +119,17 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('disconnect', function () {
+		console.log('disconnected');
+		removeUser();
+	});
+
+	function removeUser() {
 		var idx = users.indexOf(user);
-		if (!idx) {
+		if (idx) {
 			users.splice(idx, 1);
 			update = true;
 		}
-	});
+	}
 
 });
 

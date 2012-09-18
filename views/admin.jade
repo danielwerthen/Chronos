@@ -7,9 +7,14 @@ block content
 		p
 			a.btn.btn-danger.async(href='/admin/flash') Flash
 	.row-fluid
-		.span4.offset1
+		.span3
 			h2 Settings
 			form#settings(action='/admin/set', method='POST')
+				.control-group
+					label.control-label(for='pulse-form') Pulse
+					.input-append
+						input#pulse-form(name='pulse', size='16', type='text', value=settings.pulse)
+						span.add-on ms
 				.control-group
 					label.control-label(for='delay-form') Delay
 					.input-append
@@ -26,6 +31,6 @@ block content
 						input#close-form(name='close', size='16', type='text', value=settings.close)
 						span.add-on ms
 				input(type='submit')
-		.span6
+		.span9
 			#viewport.iphone
 				iframe#displayframe(height='480', width='320', src='/')
