@@ -103,6 +103,7 @@ io.sockets.on('connection', function (socket) {
 	}
 	, die = 0
 	user.location = getLocation();
+	socket.emit('yourUser', user);
 	socket.emit('setPulse', settings.pulse);
 
 	ping.respond(socket);

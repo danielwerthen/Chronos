@@ -4,6 +4,11 @@
 		, timeOffset = 0
 		, currentTime = function () { return (new Date).getTime() - timeOffset; }
 		, $canvas = $('#canvas')
+		, myUser
+
+	socket.on('yourUser', function (usr) {
+		myUser = usr;
+	});
 
 	function resize() {
 		$canvas.attr('height', window.innerHeight);
@@ -103,7 +108,10 @@
 					, center = circle.getCenter()
 				active[usr.id].markAsDeleted = false;
 
-				circle.animate({ x: usr.location.x * window.innerWidth, y: usr.location.y * window.innerHeight }, 500);
+				circle.animate({ x: usr.location.x * window.innerWidth, y: usr.location.y * window.innerHeight }, 500, function () {
+					if (myMarker)
+						myMarker.del(); myMarker = undefined;
+				});
 			}
 		}
 		for (var e in active) {
@@ -115,19 +123,18 @@
 		}
 	}
 
-	function makeCircle(x,y, color) {
+	var pulse = 1000;
+	function makeCircle(x,y, color, minRad, maxRad) {
 		var circle = jc.circle(x,y,10, color || '#FFFFFF', true);
+		function pulseAnima(circle) {
+			circle.animate({ radius: maxRad || 100, opacity:0}, pulse, {type: 'inOut', fn: 'exp'}, function () {
+				circle._radius = minRad || 10;
+				circle._opacity = 1;
+				pulseAnima(circle);
+			});
+		}
 		pulseAnima(circle);
 		return circle;
-	}
-
-	var pulse = 1000;
-	function pulseAnima(circle) {
-		circle.animate({ radius: 100, opacity:0}, pulse, {type: 'inOut', fn: 'exp'}, function () {
-			circle._radius = 10;
-			circle._opacity = 1;
-			pulseAnima(circle);
-		});
 	}
 
 	var canvas
@@ -139,8 +146,21 @@
 		canvas.click(function (point) {
 			moveTo = { x: point.x / window.innerWidth, y: point.y / window.innerHeight };
 			socket.emit('move', moveTo);
+			drawMarker();
 		});
+	}
 
+	var myMarker
+	function drawMarker() {
+		if (active[myUser.id] && active[myUser.id].circle)
+		{
+			var circle = active[myUser.id].circle;
+			if (!myMarker)
+				myMarker = makeCircle(circle._x, circle._y, '#E1391E', 5, 25);
+			myMarker.animate({x: moveTo.x * window.innerWidth, y: moveTo.y * window.innerHeight}, 250, function () {
+				this.animate({color: 'rgba(248, 103, 45, 0)'}, 3000);
+			});
+		}
 	}
 
 	var interval_1=0;
