@@ -80,8 +80,8 @@ var io = socketio.listen(server, {
 	, update = false
 
 function getLocation(x, y) {
-	x = x || Math.random();
-	y = y || Math.random();
+	x = x || 0.45 + 0.1 * Math.random();
+	y = y || 0.45 + 0.1 * Math.random();
 	return { x: limit(x), y: limit(y) };
 }
 

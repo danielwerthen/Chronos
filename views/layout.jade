@@ -7,12 +7,14 @@ html
 		meta(name='description')
 		meta(name='author')
 		link(rel='stylesheet', href='/css/style.css')
+		script(src='/js/require.js', data-main='/js/main.js')
 
 	body
 		.container
 			block content
-		block scripts
-			script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
-			script(src='/socket.io/socket.io.js')
-			script(src='http://jcscript.com/data/js/jCanvaScript.1.5.15.js')
-			script(src='/js/app.js')
+		//
+			block scripts
+				script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+				script(src='/socket.io/socket.io.js')
+				script(src='http://jcscript.com/data/js/jCanvaScript.1.5.15.js')
+				script(src='/js/app.js')
