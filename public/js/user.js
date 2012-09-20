@@ -10,12 +10,13 @@ define([ 'connector'
 	}
 
 	function move(cir) {
-		cir.animate({x: x(Math.random()), y: y(Math.random())}, 1000, function () {
+		cir.animate({x: x(Math.random()), y: y(Math.random())}, 4000, { type: 'inOut', fn: 'exp' }, function () {
 			move(this);
 		});
 	}
 	render.onActive(function () {
 		var circle = render.createCircle(x(0.5),y(0.5), '#EEE', 10);
+		
 		//move(circle);
 	});
 });

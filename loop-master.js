@@ -1,16 +1,16 @@
 var _ = require('underscore')
 	, loops = []
 	, start = (new Date).getTime()
-	, bpm = 66
+	, bpm = 124
 
 loops.push({ start: 0
-	, duration: 2 
+	, duration: 4 
 	, selector: '#background'
 	, animations: [ { start: 0
-		, duration: 1 
+		, duration: 4 
 		, keypoints: [ 
-			 [0.5, { 'color': '#999', 'radius': 100 } ]
-			, [0.5, { 'color': '#131013', 'radius': 10 } ]
+			 [0.5, { 'color': '#666', 'radius': 100 } ]
+			, [1, { 'color': '#131013', 'radius': 10 } ]
 			]
 		}
 	]
@@ -18,13 +18,13 @@ loops.push({ start: 0
 
 
 loops.push({ start: 0
-	, duration: 1
+	, duration: 2
 	, selector: '.user-circle'
 	, animations: [ { start: 0
-		, duration: 0.9 
+		, duration: 2
 		, keypoints: [ 
-			 [0.6, { opacity: 0, 'radius': 100 }, { type: 'inOut', fn: 'exp' } ]
-			, [0.6, { opacity: 1, 'radius': 10 }, { type: 'inOut', fn: 'exp' } ]
+			 [0.95, { opacity: 0, 'radius': 100 }, { type: 'inOut', fn: 'exp' } ]
+			, [0.95, { opacity: 1, 'radius': 10 }, { type: 'inOut', fn: 'exp' } ]
 			]
 		}
 	]

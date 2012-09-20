@@ -32,6 +32,7 @@ define(['connector'
 	});
 
 	io.socket.on('loop-stats', function (_stats) {
+		console.log(_stats.start);
 		if (!stats) {
 			stats = _stats;
 			return;
