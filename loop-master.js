@@ -9,7 +9,7 @@ loops.push({ start: 0
 	, animations: [ { start: 0
 		, duration: 4 
 		, keypoints: [ 
-			 [0.5, { 'color': '#666', 'radius': 100 } ]
+			 [0.5, { 'color': '#262326', 'radius': 100 } ]
 			, [1, { 'color': '#131013', 'radius': 10 } ]
 			]
 		}

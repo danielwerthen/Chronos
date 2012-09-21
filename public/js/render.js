@@ -7,11 +7,16 @@ define(['connector'
 		, loops
 		, stats
 		, update = true
+		, flareImg
 	function init() {
-		jc.start('canvas', true);
-		background = jc.rect(0,0, window.innerWidth, window.innerHeight, '#131013', true).id('background');
-		for (var i in onActive) {
-			onActive[i]();
+		flareImg = new Image();
+		flareImg.src = '/img/flare.png';
+		flareImg.onload = function () {
+			jc.start('canvas', true);
+			background = jc.rect(0,0, window.innerWidth, window.innerHeight, '#131013', true).id('background');
+			for (var i in onActive) {
+				onActive[i]();
+			}
 		}
 	}
 
@@ -148,10 +153,15 @@ define(['connector'
 			.name('user-circle');
 	}
 
+	function createStar(x, y) {
+		return jc.image(flareImg, x, y, 100, 100);
+	}
+
 	var onActive = [];
 	return {
 		background: background
 			, createCircle: createCircle
+			, createStar: createStar
 			, onActive: function (ev) { onActive.push(ev); }
 	};
 
