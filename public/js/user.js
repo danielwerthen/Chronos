@@ -16,12 +16,13 @@ define([ 'connector'
 	}
 
 	render.onActive(function () {
-		var circle = render.createCircle(x(0.5),y(0.5), '#EEE', 10);
-		var star = render.createStar(x(0.5), y(0.5));
+		//var circle = render.createCircle(x(0.5),y(0.5), '#EEE', 10);
+		var star = render.createStar(x(0.2), y(0.8));
 		setInterval(function () {
 			star.rotate(-1, 'center');
 		}, 50);
-		star.translateTo(100,100);
+		star.translate(-50,-50);
+		//star.translateTo(100,100);
 		//star.translate(x(Math.random()), y(Math.random()), 2000);
 
 		

@@ -1,7 +1,6 @@
 var _ = require('underscore')
 	, loops = []
-	, start = (new Date).getTime()
-	, bpm = 124
+	, loopStats = { start: (new Date).getTime(), bpm: 124 }
 	, objects = []
 
 objects.push({ name: 'user-circle'
@@ -43,7 +42,37 @@ loops.push({ start: 0
 	]
 });
 
-function setLoops() {
+loops.push({ start: 0
+	, duration: 4
+	, selector: '&star-gradient'
+	, animations: [ { start: 0
+		, duration: 4
+		, keypoints: [ 
+			 [0.5, { r2: 40 }, { type: 'inOut', fn: 'exp' } ]
+			, [0.95, { r2: 30 }, { type: 'inOut', fn: 'exp' } ]
+			]
+		}
+	]
+});
+
+function setLoops(_loops) {
+	loops = _loops;
+	sendLoops(sockets);
+}
+
+function setLoopStats(_loopStats) {
+	if (_loopStats.start) {
+		loopStats.start = _loopStats.start;
+	}
+	if (_loopStats.bpm) {
+		loopStats.bpm = _loopStats.bpm;
+	}
+	sendLoopStats(sockets);
+}
+
+function setObjects(_objs) {
+	objects = _objs;
+	sendObjects(sockets);
 }
 
 function sendObjects(to) {
@@ -55,11 +84,19 @@ function sendLoops(to) {
 }
 
 function sendLoopStats(to) {
-	to.emit('loop-stats', { 'start': start, 'bpm': bpm });
+	to.emit('loop-stats', loopStats);
 }
+
+var sockets
 
 module.exports = {
 	register: function (app, io) {
+		app.locals.loops = loops;
+		app.locals.loopStats = loopStats;
+		app.locals.objects = objects;
+		app.get('/admin', function (req, res) {
+			res.render('admin');
+		});
 		app.post('/loops', function (req, res) {
 			console.dir(req.params);
 			setLoops(req.params);
@@ -68,6 +105,7 @@ module.exports = {
 		app.get('/loop-stats', function (req, res) {
 			res.end(JSON.stringify({ 'start': start, 'bpm': bpm }));
 		});
+		sockets = io.sockets;
 	},
 	open: function (socket) {
 		sendObjects(socket);
@@ -81,6 +119,15 @@ module.exports = {
 		});
 		socket.on('getObjects', function () {
 			sendObjects(socket);
+		});
+		socket.on('setLoops', function (_loops) {
+			setLoops(_loops);
+		});
+		socket.on('setLoopStats', function (_stats) {
+			setLoopStats(_stats);
+		});
+		socket.on('setObjects', function (_objects) {
+			setObjects(_objects);
 		});
 	}
 };

@@ -149,6 +149,10 @@ define(['connector'
 		var on = jc(selector)
 			, unit = bpmInMs(stats.bpm)
 			, dur = anima.duration * unit
+		if (selector.charAt(0) === '&') {
+			if (specials[selector])
+				on = specials[selector];
+		}
 		var anis = [];
 		var passover;
 		for (var i = anima.keypoints.length - 1; i >= 0; i--) {
@@ -166,16 +170,24 @@ define(['connector'
 	function makeAniFun(state, length, opt, callback) {
 		return function () {
 			if (length == 0) {
-				/*for (var e in state) {
-					this['_' + e] = state[e];
-				}*/
-				//this.animate({ 'opacity': 1, radius: 10 });
-				this.animate(state);
+				if (_.isArray(this)) {
+					for (var i in this) {
+						this[i].animate(state);
+					}
+				}
+				else
+					this.animate(state);
 				if (callback)
 					callback();
 			}
 			else {
-				this.animate(state, length, opt, callback);
+				if (_.isArray(this)) {
+					for (var i in this) {
+						this[i].animate(state, length, opt, callback);
+					}
+				}
+				else
+					this.animate(state, length, opt, callback);
 			}
 		};
 	}
@@ -183,6 +195,13 @@ define(['connector'
 	function createCircle(x,y, color, rad) {
 		return jc.circle(x,y, rad || 10, color || '#FFF', true)
 			.name('user-circle');
+	}
+
+	var specials = {};
+	function register(special, name) {
+		if (!specials['&' + name])
+			specials['&' + name] = [];
+		specials['&' + name].push(special);
 	}
 
 	function createStar(x, y) {
@@ -194,7 +213,8 @@ define(['connector'
 								, [1,'rgba(249, 237, 220, 0)']];
 		var gradient=jc.rGradient(x + 50,y + 50,1,x + 50, y + 50,30,colors)
 			.layer('star');
-		starPulse(gradient);
+		register(gradient, 'star-gradient');
+		//starPulse(gradient);
 		/*var glow = jc.circle(x + 50, y + 50, 15, 'rgba(249, 237, 220, 1)', true)
 			.layer('star');
 		glow.animate({ opacity: 0.5 }, 1000)*/
