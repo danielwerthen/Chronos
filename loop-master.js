@@ -2,6 +2,19 @@ var _ = require('underscore')
 	, loops = []
 	, start = (new Date).getTime()
 	, bpm = 124
+	, objects = []
+
+objects.push({ name: 'user-circle'
+	, type: 'circle'
+	, local: { x: 0.2, y: 0.2 }
+	, constructor: [ 0.2, 0.2, 10, '#FFF', true ]
+	});
+
+objects.push({ name: 'user-circle'
+	, type: 'circle'
+	, local: { x: 0.8, y: 0.8 }
+	, constructor: [ 0.8, 0.8, 10, '#FFF', true ]
+	});
 
 loops.push({ start: 0
 	, duration: 4 
@@ -33,6 +46,10 @@ loops.push({ start: 0
 function setLoops() {
 }
 
+function sendObjects(to) {
+	to.emit('objects', objects);
+}
+
 function sendLoops(to) {
 	to.emit('loops', loops);
 }
@@ -53,10 +70,17 @@ module.exports = {
 		});
 	},
 	open: function (socket) {
+		sendObjects(socket);
 		sendLoops(socket);
 		sendLoopStats(socket);
 		socket.on('getLoops', function () {
 			sendLoops(socket);
+		});
+		socket.on('getLoopStats', function () {
+			sendLoopStats(socket);
+		});
+		socket.on('getObjects', function () {
+			sendObjects(socket);
 		});
 	}
 };

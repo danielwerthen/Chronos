@@ -2182,7 +2182,7 @@ proto.grdntsnptrn=function()
 proto.gradients=function()
 {
 	this.colorStopsCount=0;
-	this.paramNames=['_pos','_colorR','_colorG','_colorB','_alpha'];
+	this.paramNames=['_pos','_colorR','_colorG','_colorB','_alpha', '_name'];
 	this.addColorStop=function(pos,color){
 		redraw(this);
 		var colorKeeper = parseColor(color);

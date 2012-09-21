@@ -8,6 +8,8 @@ define(['connector'
 		, stats
 		, update = true
 		, flareImg
+		, objects
+		, activeObjects
 	function init() {
 		flareImg = new Image();
 		flareImg.src = '/img/flare.png';
@@ -26,9 +28,19 @@ define(['connector'
 			$canvas.attr('height', window.innerHeight);
 			$canvas.attr('width', window.innerWidth);
 		}
-		$(window).resize(resize);
+		$(window).resize(function () {
+			resize();
+			jc.clear();
+			init();
+			update = true;
+		});
 		resize();
 		init();
+	});
+
+	io.socket.on('objects', function (_objects) {
+		objects = _objects;
+		update = true;
 	});
 
 	io.socket.on('loops', function (_loops) {
@@ -61,6 +73,16 @@ define(['connector'
 		, activeTimeouts = []
 	function initLoops() {
 		if (!loops || !stats) return;
+
+		for (var i in activeObjects) {
+			activeObjects[i].del();
+		}
+		activeObjects = [];
+
+		for (var i in objects) {
+			activeObjects.push(createObject(objects[i]));
+		}
+
 		for (var i in activeLoops) {
 			clearInterval(activeLoops[i]);
 		}
@@ -73,6 +95,17 @@ define(['connector'
 			var loop = loops[i];
 			schedule(loop);
 		}
+	}
+
+	function createObject(object) {
+		var obj = jc[object.type].apply(jc, object.constructor);
+		if (object.name)
+			obj.name(object.name);
+		if (object.id)
+			obj.id(object.id)
+		if (object.local)
+			obj.animate({ x: object.local.x * window.innerWidth, y: object.local.y * window.innerHeight });
+		return obj;	
 	}
 
 	function bpmInMs(bpm) {

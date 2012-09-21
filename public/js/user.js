@@ -16,7 +16,7 @@ define([ 'connector'
 	}
 
 	render.onActive(function () {
-		//var circle = render.createCircle(x(0.5),y(0.5), '#EEE', 10);
+		var circle = render.createCircle(x(0.5),y(0.5), '#EEE', 10);
 		var star = render.createStar(x(0.5), y(0.5));
 		setInterval(function () {
 			star.rotate(-1, 'center');
