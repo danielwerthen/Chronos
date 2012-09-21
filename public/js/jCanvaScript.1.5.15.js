@@ -72,6 +72,8 @@
             var objsLength = objs.length,
                 names, l, k, m;
             for (k = 0; k < objsLength; k++) {
+								if (!objs[k]._name)
+									continue;
                 names = objs[k]._name.split(' ');
                 if(strokes.length > names.length){
                     continue;
@@ -2306,7 +2308,7 @@ proto.rGradient=function()
 {
 	this.create = function(canvasOptns)
 	{
-		if(this.optns.animated)animating.call(this);
+		if(this.optns.animated)animating.call(this, canvasOptns);
 		this.val=canvasOptns.ctx.createRadialGradient(this._x1,this._y1,this._r1,this._x2,this._y2,this._r2);
 		for(var i=0;i<this.colorStopsCount;i++)
 		{

@@ -37,7 +37,6 @@ define(['connector'
 	});
 
 	io.socket.on('loop-stats', function (_stats) {
-		console.log(_stats.start);
 		if (!stats) {
 			stats = _stats;
 			return;
@@ -154,7 +153,32 @@ define(['connector'
 	}
 
 	function createStar(x, y) {
-		return jc.image(flareImg, x, y, 100, 100);
+		var img = jc.image(flareImg, x, y, 100, 100)
+			.layer('star');
+		var colors=[[0,'rgba(249, 237, 220, 0.4)']
+								, [0.4,'rgba(249, 237, 220, 0.3)']
+								, [0.43,'rgba(249, 237, 220, 0.2)']
+								, [1,'rgba(249, 237, 220, 0)']];
+		var gradient=jc.rGradient(x + 50,y + 50,1,x + 50, y + 50,30,colors)
+			.layer('star');
+		starPulse(gradient);
+		/*var glow = jc.circle(x + 50, y + 50, 15, 'rgba(249, 237, 220, 1)', true)
+			.layer('star');
+		glow.animate({ opacity: 0.5 }, 1000)*/
+		var glow = jc.circle(x + 50,y + 50, 50, gradient, true)
+			.layer('star')
+
+		return jc.layer('star');
+	}
+
+	function starPulse(grad) {
+		var _stats = stats || { bpm: 120 }
+			, dur = bpmInMs(_stats.bpm);
+		grad.animate({ r2: 40 }, dur, { type: 'inOut', fn: 'exp' }, function () {
+			this.animate({ r2: 30 }, dur * 3, { type: 'inOut', fn: 'exp' }, function () {
+				starPulse(this);
+			});
+		});
 	}
 
 	var onActive = [];
