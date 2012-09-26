@@ -1,0 +1,1 @@
+define(["socket.io"],function(){function i(){e.emit("ping",{time:(new Date).getTime()})}var e=io.connect("/"),t=0,n=0,r=function(){return(new Date).getTime()-n};return e.on("ping",function(e){t=((new Date).getTime()-e.yours.time)/2,n=(new Date).getTime()-(e.now+t),setTimeout(i,2e3)}),i(),{socket:e,currentTime:r}})

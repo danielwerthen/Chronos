@@ -7,18 +7,14 @@ define(['connector'
 		, loops
 		, stats
 		, update = true
-		, flareImg
 		, objects
 		, activeObjects
+
 	function init() {
-		flareImg = new Image();
-		flareImg.src = '/img/flare.png';
-		flareImg.onload = function () {
-			jc.start('canvas', true);
-			background = jc.rect(0,0, window.innerWidth, window.innerHeight, '#131013', true).id('background');
-			for (var i in onActive) {
-				onActive[i]();
-			}
+		jc.start('canvas', true);
+		background = jc.rect(0,0, window.innerWidth, window.innerHeight, '#131013', true).id('background');
+		for (var i in onActive) {
+			onActive[i]();
 		}
 	}
 
@@ -49,18 +45,8 @@ define(['connector'
 	});
 
 	io.socket.on('loop-stats', function (_stats) {
-		if (!stats) {
-			stats = _stats;
-			return;
-		}
-		var updated = [];
-		for (var e in _stats) {
-			if (_stats[e] != stats[e])
-				updated.push(e);
-		}
 		stats = _stats;
-		if (_stats.length > 0 && _stats[0] != 'bpm')
-			update = true;
+		update = true;
 	});
 
 	setInterval(function () {

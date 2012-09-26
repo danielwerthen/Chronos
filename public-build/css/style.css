@@ -1,0 +1,29 @@
+#canvas {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+/*@background: #EDE9E9;
+@backgroundImg: url(/img/natural_paper.png);
+
+body {
+  padding: 50px;
+	padding-top: 60px;
+	background: @backgroundImg;
+	background-image: -ms-linear-gradient(left, @background 0%, rgba(255,255,255,0) 15%, rgba(255,255,255,0) 85%, @background 100%), @backgroundImg;
+	background-image: -moz-linear-gradient(left, @background 0%, rgba(255,255,255,0) 15%, rgba(255,255,255,0) 85%, @background 100%), @backgroundImg;
+	background-image: -o-linear-gradient(left, @background 0%, rgba(255,255,255,0) 15%, rgba(255,255,255,0) 85%, @background 100%), @backgroundImg;
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(0, @background), color-stop(0.15, rgba(255,255,255,0)), color-stop(0.85, rgba(255,255,255,0)), color-stop(1, @background)), @backgroundImg;
+	background-image: -webkit-linear-gradient(left, @background 0%, rgba(255,255,255,0) 15%, rgba(255,255,255,0) 85%, @background 100%), @backgroundImg;
+	background-image: -linear-gradient(left, @background 0%, rgba(255,255,255,0) 15%, rgba(255,255,255,0) 85%, @background 100%), @backgroundImg;
+}
+
+.hero-unit h1 {
+	text-transform: uppercase;
+}
+
+.modal-body {
+	max-height: 500px;
+}*/

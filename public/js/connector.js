@@ -1,4 +1,4 @@
-define(['/socket.io/socket.io.js'], function () {
+define(['socket.io'], function () {
 	var socket = io.connect('/')
 		, latency = 0
 		, timeOffset = 0

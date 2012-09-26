@@ -18,15 +18,19 @@ require([
 		$('#bpm-input').change(function () {
 			var field = $(this)
 				, val = field.val()
-				, stats = { bpm: Number(val) }
-			if (tap_start)
-				stats.start = tap_start;
 			if (preventChange)
 				clearTimeout(preventChange);
 			preventChange = setTimeout(function () {
-				io.socket.emit('setLoopStats', stats);
+				setValue(val);
 			}, 1000);
 		});
+
+		function setValue(bpm) {
+			var stats = { bpm: Number(bpm) }
+			if (tap_start)
+				stats.start = tap_start;
+			io.socket.emit('setLoopStats', stats);
+		}
 
 		var tap_start
 			, tap_prev
@@ -55,6 +59,7 @@ require([
 					}
 
 					$('#bpm-input').val(newVal);
+					setValue(newVal);
 				}
 				
 				tap_prev = now;
