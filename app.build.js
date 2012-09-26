@@ -9,6 +9,9 @@
 	modules: [
 		{
 			name: "main"
+		},
+		{
+			name: "admin"
 		}
 	]
 })

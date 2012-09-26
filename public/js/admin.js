@@ -1,9 +1,9 @@
 require([
 		'connector'
-		, 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'
-		, '/js/underscore-min.js'
+		, 'jquery'
+		, '_'
 		], function (io) {
-	var t = require(['/js/bootstrap.js'], function () {
+	var t = require(['bootstrap'], function () {
 	});
 	$(function () {
 		$('a.async').click(function (e) {
