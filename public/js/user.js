@@ -11,7 +11,6 @@ define([ 'connector'
 	}
 
 	render.onLoop(function (nr, len) {
-		$('#counter').html(nr);
 		if (!render.getBackground())
 			return;
 		render.getBackground().animate({ color: '#262326' }, len / 2, function () {

@@ -18,6 +18,10 @@ define(['connector'
 		, halvan
 	//en fjärde del, åttondels paus, åttondel + fjärdedel, fjärdedel pause
 	function baseline(nr, len) {
+		var co = document.getElementById('counter');
+		co.innerHTML = 'baseline + ' + nr;
+		if (!helan || !halvan)
+			return;
 		helan.animate({ radius: 400, opacity: 0 }, len / 1.5, { type: 'inOut', fn: 'exp' }, function() {
 			this.animate({ radius: 1, opacity: 0.5 });
 		});
