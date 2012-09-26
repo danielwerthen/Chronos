@@ -37,6 +37,7 @@ js/jc.js
 js/connector.js
 js/_.js
 js/render-v2.js
+js/scenario.js
 js/user.js
 js/main.js
 

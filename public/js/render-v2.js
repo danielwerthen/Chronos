@@ -19,6 +19,8 @@ define(['connector'
 
 	$(function () {
 		var $canvas = $('#canvas');
+		stats.bpm = Number($canvas.data('bpm'));
+		stats.start = Number($canvas.data('start'));
 		function resize() {
 			$canvas.attr('height', window.innerHeight);
 			$canvas.attr('width', window.innerWidth);
@@ -38,7 +40,7 @@ define(['connector'
 	
 	function scheduleLoop() {
 		var nextBeat
-			, length = mspb()
+			, length = mspb() * 4
 			, now = io.currentTime()
 			, at = stats.start + Math.ceil((now - stats.start) / length) * length
 		setTimeout(function () {
@@ -55,12 +57,22 @@ define(['connector'
 		}, 10);
 	}
 
-	var onInit
-		, onLoop
+	var onInits = [];
+	function onInit() {
+		for (var i in onInits) {
+			onInits[i]();
+		}
+	}
+	var onLoops = [];
+	function onLoop(nr, len) {
+		for (var i in onLoops) {
+			onLoops[i](nr, len);
+		}
+	}
 	return {
 		getBackground: function () { return background; }
-		, onInit: function (ev) { onInit = ev }
-		, onLoop: function (ev) { onLoop = ev }
+		, onInit: function (ev) { onInits.push(ev); }
+		, onLoop: function (ev) { onLoops.push(ev); }
 		, stats: stats
 	};
 });

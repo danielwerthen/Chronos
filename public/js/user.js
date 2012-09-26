@@ -1,5 +1,6 @@
 define([ 'connector'
 		, 'render-v2'
+		, 'scenario'
 		, 'jquery' ]
 	, function (io, render) {
 	function x(x) {
@@ -13,11 +14,9 @@ define([ 'connector'
 		$('#counter').html(nr);
 		if (!render.getBackground())
 			return;
-		if (nr % 2 == 0) {
-			render.getBackground().animate({ color: '#262326' }, len / 2, function () {
-				render.getBackground().animate({ color: '#131013' }, len / 2);
-			});
-		}
+		render.getBackground().animate({ color: '#262326' }, len / 2, function () {
+			render.getBackground().animate({ color: '#131013' }, len / 2);
+		});
 	});
 
 	render.onInit(function () {
