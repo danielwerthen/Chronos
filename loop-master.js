@@ -1,6 +1,6 @@
 var _ = require('underscore')
 	, loops = []
-	, loopStats = { start: (new Date).getTime(), bpm: 124 }
+	, loopStats = { start: (new Date).getTime(), bpm: 100 }
 	, objects = []
 
 objects.push({ name: 'user-circle'
