@@ -10,7 +10,7 @@ define([ 'connector'
 	}
 
 	render.onLoop(function (nr, len) {
-		console.log(len);
+		$('#counter').html(nr);
 		if (!render.getBackground())
 			return;
 		if (nr % 2 == 0) {
