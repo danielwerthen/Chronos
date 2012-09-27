@@ -2962,9 +2962,12 @@ jCanvaScript.pause=function(idCanvas)
 	jCanvaScript.canvas(idCanvas).pause();
 	return jCanvaScript;
 }
-jCanvaScript.start=function(idCanvas,isAnimated)
+jCanvaScript.start=function(idCanvas, objCanvas,isAnimated)
 {
-	jCanvaScript.canvas(idCanvas).start(isAnimated);
+	if (isAnimated)
+		jCanvaScript.canvas(idCanvas, objCanvas).start(isAnimated);
+	else
+		jCanvaScript.canvas(idCanvas).start(objCanvas);
 	return jCanvaScript;
 }
 
@@ -3036,7 +3039,7 @@ jCanvaScript.text = function(string,x,y,maxWidth,color,fill)
 }
 
     
-jCanvaScript.canvas = function(idCanvas)
+jCanvaScript.canvas = function(idCanvas, objCanvas)
 {
 	if(idCanvas===undefined)return canvases[0];
 	var limit=canvases.length;
@@ -3053,7 +3056,7 @@ jCanvaScript.canvas = function(idCanvas)
 	};
 	canvases[limit]=canvas;
 	lastCanvas=limit;
-	canvas.cnv=document.getElementById(idCanvas);
+	canvas.cnv=objCanvas || document.getElementById(idCanvas);
 	if ('\v'=='v')
 	{
 		if(typeof G_vmlCanvasManager!=='undefined')

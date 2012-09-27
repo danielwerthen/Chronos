@@ -108,9 +108,6 @@ module.exports = {
 		sockets = io.sockets;
 	},
 	open: function (socket) {
-		sendObjects(socket);
-		sendLoops(socket);
-		sendLoopStats(socket);
 		socket.on('getLoops', function () {
 			sendLoops(socket);
 		});

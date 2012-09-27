@@ -1,5 +1,7 @@
 extends layout
 
+block script-entry
+	script(src='/js/require.js', data-main='/js/overhead.js')
+
 block content
 	#container(data-bpm=loopStats.bpm, data-start=loopStats.start)
-		canvas#canvas

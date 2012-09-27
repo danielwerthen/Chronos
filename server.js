@@ -31,14 +31,18 @@ app.configure('development', function () {
 });
 
 app.configure('production', function () {
-  app.use(require('less-middleware')({ src: __dirname + '/public' }));
-  app.use(express.static(path.join(__dirname, 'public')));
-  /*app.use(require('less-middleware')({ src: __dirname + '/public-build' }));
-  app.use(express.static(path.join(__dirname, 'public-build')));*/
+  /*app.use(require('less-middleware')({ src: __dirname + '/public' }));
+  app.use(express.static(path.join(__dirname, 'public')));*/
+  app.use(require('less-middleware')({ src: __dirname + '/public-build' }));
+  app.use(express.static(path.join(__dirname, 'public-build')));
 });
 
 app.get('/', function (req, res) {
 	res.render('index');
+});
+
+app.get('/overhead', function (req, res) {
+	res.render('overhead');
 });
 
 var server = http.createServer(app).listen(app.get('port'), function () {

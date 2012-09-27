@@ -10,28 +10,34 @@ define(['connector'
 		return 60000 / (stats.bpm || 100);
 	}
 
-	function init() {
-		jc.start('canvas', true);
-		background = jc.rect(0,0, window.innerWidth, window.innerHeight, '#131013', true).id('background');
+	var width, height;
+	width = function () { return window.innerWidth / 2; };
+	height = function () { return window.innerHeight / 2; };
+	function init(objCanvas) {
+		if (objCanvas) {
+			jc.start('canvas', objCanvas, true);
+			width = function () { return $(objCanvas).attr('width'); };
+			height = function () { return $(objCanvas).attr('height'); };
+		}
+		else {
+			jc.start('canvas', true);
+			var $canvas = $('#canvas');
+			$canvas.attr('height', height());
+			$canvas.attr('width', width());
+		}
+		background = jc.rect(0,0, width(), height(), '#131013', true).id('background');
 		if (onInit)
 			onInit();
 	}
+	$(window).resize(function () {
+		jc.clear();
+		init();
+	});
 
 	$(function () {
-		var $canvas = $('#canvas');
-		stats.bpm = Number($canvas.data('bpm'));
-		stats.start = Number($canvas.data('start'));
-		function resize() {
-			$canvas.attr('height', window.innerHeight);
-			$canvas.attr('width', window.innerWidth);
-		}
-		$(window).resize(function () {
-			resize();
-			jc.clear();
-			init();
-		});
-		resize();
-		init();
+		var $container = $('#container');
+		stats.bpm = Number($container.data('bpm'));
+		stats.start = Number($container.data('start'));
 	});
 
 	io.socket.on('loop-stats', function (_stats) {
@@ -74,5 +80,8 @@ define(['connector'
 		, onInit: function (ev) { onInits.push(ev); }
 		, onLoop: function (ev) { onLoops.push(ev); }
 		, stats: stats
+		, init: init
+		, width: function () { return width(); }
+		, height: function () { return height(); }
 	};
 });

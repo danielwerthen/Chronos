@@ -34,8 +34,8 @@ css/bootstrap-responsive.min.css
 js/main.js
 ----------------
 js/jc.js
-js/connector.js
 js/_.js
+js/connector.js
 js/render-v2.js
 js/scenario.js
 js/user.js
@@ -43,6 +43,16 @@ js/main.js
 
 js/admin.js
 ----------------
-js/connector.js
 js/_.js
+js/connector.js
 js/admin.js
+
+js/overhead.js
+----------------
+js/_.js
+js/connector.js
+js/jc.js
+js/render-v2.js
+js/scenario.js
+js/three.min.js
+js/overhead.js
