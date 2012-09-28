@@ -4,13 +4,49 @@ define([ 'connector'
 		, 'jc'
 		, 'jquery' ]
 	, function (io, render, scene) {
+	var markers = [];
+	io.socket.on('trigger-push', function (data) {
+		setTimeout(function() {
+		try {
+			for (var i in markers) {
+				var marker = markers[i];
+				if (marker.point.x == data.point.x
+					&& marker.point.y == data.point.y) {
+						markers.splice(i, 1);
+						marker.piece.del();
+				}
+			}
+		}
+		catch (e) {
+		}
+		}, data.at - io.currentTime());
+	});
+
 	$(function () {
 		var needLoad = true;
 		render.onInit(function () {
 			if (needLoad)
 				startLoader();
 			$(window).click(function (e) {
-				jc.circle(e.offsetX / 2, e.offsetY / 2, 10, '#DDD', true).name('marker');
+				if ( markers.length > 0) {
+					return;
+				}
+				var x = e.pageX / 2
+					, y = e.pageY / 2
+					, marker = jc.circle(x, y, 10, '#DDD', true).name('marker')
+					, point = { x: x / render.width(), y: y / render.height() }
+				$.get('/click/' + point.x + '/' + point.y, function (res) {
+					try {
+						var result = res.result;
+						if (result !== 'OK')
+							marker.del();
+						else
+							markers.push({ piece: marker, point: point });
+					}
+					catch (e) {
+						marker.del();
+					}
+				});
 			});
 		});
 		render.init();

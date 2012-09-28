@@ -4,7 +4,7 @@ define(['connector'
 	, 'jc' ]
 	, function (io, render) {
 	var color = 0
-		, scene = 0
+		, scene = 1 
 		, colors = [ '#F00', '#0F0', '#00F' ]
 		, scenes = [ 0, 1, 2 ]
 		, currentColor = function () {
@@ -24,6 +24,15 @@ define(['connector'
 		else {
 			setTimeout(drawScenes, delay);
 		}
+	});
+
+	io.socket.on('trigger-push', function (data) {
+		setTimeout(function () {
+		var boom = jc.circle(data.point.x * render.width(), data.point.y * render.height(), 0.01, '#FFF', true)
+			.animate({ radius: 300 * scale(), opacity: 0 }, 1600, { type: 'inOut', fn: 'exp' }, function () {
+				this.del();
+			});
+		}, data.at - io.currentTime());
 	});
 
 	io.socket.on('trigger-color', function (data) {
@@ -108,10 +117,10 @@ define(['connector'
 	function markers(len) {
 		jc('.marker').animate({ color: 'rgba(231,231,231,0)' }, len / 4, function () {
 			this.animate({ color: 'rgba(231,231,231,1)' }, len / 4, function () {
-				this.animate({ color: 'rgba(231,231,231,0)' }, len / 4, function () {
+				/*this.animate({ color: 'rgba(231,231,231,0)' }, len / 4, function () {
 					this.animate({ color: 'rgba(231,231,231,1)' }, len / 4, function () {
 					});
-				});
+				});*/
 			});
 		});
 	}
@@ -123,6 +132,9 @@ define(['connector'
 				sideSwipe(nr, len, i);
 			}
 			markers(len);
+			setTimeout(function () {
+				markers(len);
+			}, len / 2);
 			if (false && render.getBackground()) {
 				render.getBackground().animate({ color: '#161316' }, len / 2, function () {
 					render.getBackground().animate({ color: '#131013' }, len / 2);

@@ -1,6 +1,6 @@
 var _ = require('underscore')
 	, loopStats = { start: (new Date).getTime(), bpm: 100 }
-	, scene = 0
+	, scene = 1
 	, color = 0
 
 function setLoops(_loops) {
@@ -49,7 +49,29 @@ function triggerNewScene(newScene, at) {
 	sockets.emit('trigger-scene', { scene: newScene, at: at });
 }
 
+function scheduleLoop() {
+	var nextBeat
+		, length = (60000 / loopStats.bpm) * 4
+		, now = (new Date).getTime()
+		, at = Number(loopStats.start) + Math.ceil((now - loopStats.start) / length) * length
+	setTimeout(function () {
+		loopStart(Math.round((now - loopStats.start) / length), length);
+	}, at - now);
+}
+scheduleLoop();
+
+var onLoops = [];
+function loopStart(beatNr, length) {
+	for (var i in onLoops) {
+		onLoops[i](beatNr, length);
+	}
+	setTimeout(function () {
+		scheduleLoop();
+	}, 10);
+}
+
 module.exports = {
+	onLoop: function (ev) { onLoops.push(ev); },
 	register: function (app, io) {
 		app.locals.loopStats = function () { return loopStats; }
 		app.locals.scene = function () { return scene; }
@@ -62,26 +84,26 @@ module.exports = {
 				console.log('Start will be shifted: ' + (req.params.start - loopStats.start) + 'ms');
 				setLoopStats({ start: req.params.start });
 			}
+			res.setHeader(200, 'application/json');
 			res.end(JSON.stringify({ result: 'OK' }));
 		});
 		app.post('/scene/:scene/:at', function (req, res) {
 			var nScene = Number(req.params.scene)
 				, triggerAt = Number(req.params.at)
-			if (nScene !== scene) {
-				triggerNewScene(nScene, triggerAt);
-			}
+			triggerNewScene(nScene, triggerAt);
+			res.setHeader(200, 'application/json');
 			res.end(JSON.stringify({ result: 'OK' }));
 		});
 		app.post('/color/:color/:at/:fade', function (req, res) {
 			var nColor = Number(req.params.color)
 				, fade = Number(req.params.fade)
 				, triggerAt = Number(req.params.at)
-			if (nColor !== color) {
-				triggerNewColor(nColor, fade, triggerAt);
-			}
+			triggerNewColor(nColor, fade, triggerAt);
+			res.writeHead(200, { 'Content-Type': 'application/json' });
 			res.end(JSON.stringify({ result: 'OK' }));
 		});
 		app.get('/loop-stats', function (req, res) {
+			res.writeHead(200, { 'Content-Type': 'application/json' });
 			res.end(JSON.stringify({ 'start': start, 'bpm': bpm }));
 		});
 		sockets = io.sockets;
