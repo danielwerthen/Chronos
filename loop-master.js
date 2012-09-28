@@ -84,14 +84,14 @@ module.exports = {
 				console.log('Start will be shifted: ' + (req.params.start - loopStats.start) + 'ms');
 				setLoopStats({ start: req.params.start });
 			}
-			res.setHeader(200, 'application/json');
+			res.writeHead(200, { 'Content-Type': 'application/json' });
 			res.end(JSON.stringify({ result: 'OK' }));
 		});
 		app.post('/scene/:scene/:at', function (req, res) {
 			var nScene = Number(req.params.scene)
 				, triggerAt = Number(req.params.at)
 			triggerNewScene(nScene, triggerAt);
-			res.setHeader(200, 'application/json');
+			res.writeHead(200, { 'Content-Type': 'application/json' });
 			res.end(JSON.stringify({ result: 'OK' }));
 		});
 		app.post('/color/:color/:at/:fade', function (req, res) {
