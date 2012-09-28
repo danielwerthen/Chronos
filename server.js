@@ -59,7 +59,7 @@ var io = socketio.listen(server, {
 });
 
 looper.register(app, io);
-//touch.register(app, io);
+touch.register(app, io);
 
 io.sockets.on('connection', function (socket) {
 	time.open(socket);
