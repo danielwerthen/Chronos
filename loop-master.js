@@ -94,6 +94,7 @@ module.exports = {
 			res.writeHead(200, { 'Content-Type': 'application/json' });
 			res.end(JSON.stringify({ result: 'OK' }));
 		});
+		
 		app.post('/color/:color/:at/:fade', function (req, res) {
 			var nColor = Number(req.params.color)
 				, fade = Number(req.params.fade)
