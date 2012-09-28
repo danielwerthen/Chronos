@@ -4,7 +4,7 @@ var express = require('express')
 	, socketio = require('socket.io')
 	, gzippo = require('gzippo')
 	, time = require('./time-keeper')
-	, touch = require('./touch-queue')
+	//, touch = require('./touch-queue')
 	, user = require('./user-keeper')
 	, looper = require('./loop-master')
 
@@ -59,12 +59,12 @@ var io = socketio.listen(server, {
 });
 
 looper.register(app, io);
-touch.register(app, io);
+//touch.register(app, io);
 
 io.sockets.on('connection', function (socket) {
 	time.open(socket);
 	looper.open(socket);
-	touch.open(socket);
+	//touch.open(socket);
 	socket.on('disconnect', function () {
 
 	});
