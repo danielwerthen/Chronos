@@ -1,6 +1,6 @@
 var clicks = []
 	, queueLength = 8
-	, loop = require('./loop-master')
+	//, loop = require('./loop-master')
 
 function push(len, stop) {
 	if (clicks.length == 0) { return; }
@@ -20,9 +20,9 @@ function push(len, stop) {
 	}
 }
 
-loop.onLoop(function (nr, len) {
+/*loop.onLoop(function (nr, len) {
 	push(len / 2);
-});
+});*/
 
 function limit(x) {
 	if (x > 1)
