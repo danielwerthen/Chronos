@@ -45,6 +45,10 @@ app.get('/overhead', function (req, res) {
 	res.render('overhead');
 });
 
+app.get('/ping', function (req, res) {
+	res.end(JSON.stringify({ time: req.param('time'), myTime: (new Date).getTime() }));
+});
+
 var server = http.createServer(app).listen(app.get('port'), function () {
 	console.log('Chronos is running on port ' + app.get('port'));
 });

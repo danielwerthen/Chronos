@@ -85,22 +85,22 @@ define(['connector'
 	
 	render.onInit(drawObjects);
 	function drawObjects() {
-		helan = drawCircle(x(0.75), y(0.5), '#003780', 0.01, 'helan', 'baseline');
+		helan = drawCircle(x(0.75), y(0.5), '#fff', 0.01, 'helan', 'baseline');
 		helan.animate({ opacity: 0.5 });
-		halvan = drawCircle(x(0.25), y(0.5), '#003780', 0.01, 'halvan', 'baseline');
+		halvan = drawCircle(x(0.25), y(0.5), '#fff', 0.01, 'halvan', 'baseline');
 		halvan.animate({ opacity: 0.5 });
 
 		left = [];
-		left.push(drawCircle(x(0.1), y(0.1), 'rgba(96, 35, 123, 0.5)', 0.01, 'left01', 'side-swipe'));
-		left.push(drawCircle(x(0.1), y(0.9), 'rgba(96, 35, 123, 0.5)', 0.01, 'left04', 'side-swipe'));
-		left.push(drawCircle(x(0.1), y(0.3333), 'rgba(96, 35, 123, 0.5)', 0.01, 'left02', 'side-swipe'));
-		left.push(drawCircle(x(0.1), y(0.6667), 'rgba(96, 35, 123, 0.5)', 0.01, 'left03', 'side-swipe'));
+		left.push(drawCircle(x(0.1), y(0.1), 'rgba(255, 255, 255, 0.5)', 0.01, 'left01', 'side-swipe'));
+		left.push(drawCircle(x(0.1), y(0.9), 'rgba(255, 255, 255, 0.5)', 0.01, 'left04', 'side-swipe'));
+		left.push(drawCircle(x(0.1), y(0.3333), 'rgba(255, 255, 255, 0.5)', 0.01, 'left02', 'side-swipe'));
+		left.push(drawCircle(x(0.1), y(0.6667), 'rgba(255, 255, 255, 0.5)', 0.01, 'left03', 'side-swipe'));
 
 		right = [];
-		right.push(drawCircle(x(0.9), y(0.9), 'rgba(96, 35, 123, 0.5)', 0.01, 'right04', 'side-swipe'));
-		right.push(drawCircle(x(0.9), y(0.1), 'rgba(96, 35, 123, 0.5)', 0.01, 'right01', 'side-swipe'));
-		right.push(drawCircle(x(0.9), y(0.6667), 'rgba(96, 35, 123, 0.5)', 0.01, 'right03', 'side-swipe'));
-		right.push(drawCircle(x(0.9), y(0.3333), 'rgba(96, 35, 123, 0.5)', 0.01, 'right02', 'side-swipe'));
+		right.push(drawCircle(x(0.9), y(0.9), 'rgba(255, 255, 255, 0.5)', 0.01, 'right04', 'side-swipe'));
+		right.push(drawCircle(x(0.9), y(0.1), 'rgba(255, 255, 255, 0.5)', 0.01, 'right01', 'side-swipe'));
+		right.push(drawCircle(x(0.9), y(0.6667), 'rgba(255, 255, 255, 0.5)', 0.01, 'right03', 'side-swipe'));
+		right.push(drawCircle(x(0.9), y(0.3333), 'rgba(255, 255, 255, 0.5)', 0.01, 'right02', 'side-swipe'));
 
 	}
 
