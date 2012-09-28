@@ -36,7 +36,7 @@ var sockets;
 
 module.exports = {
 	register: function (app, io) {
-		sockets = io.sockets;
+		/*sockets = io.sockets;
 		app.get('/click/:x/:y', function (req, res) {
 			var x = limit(Number(req.params.x))
 				, y = limit(Number(req.params.y))
@@ -51,7 +51,7 @@ module.exports = {
 			else {
 				res.end(JSON.stringify({ result: 'ERROR' }));
 			}
-		});
+		});*/
 	}, 
 	open: function (socket) {
 	}
