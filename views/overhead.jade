@@ -4,4 +4,4 @@ block script-entry
 	script(src='/js/require.js', data-main='/js/overhead.js')
 
 block content
-	#container(data-bpm=loopStats.bpm, data-start=loopStats.start)
+	#container(data-bpm=loopStats().bpm, data-start=loopStats().start, data-color=color(), data-scene=scene())

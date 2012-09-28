@@ -48,7 +48,7 @@ define(['connector'
 		var nextBeat
 			, length = mspb() * 4
 			, now = io.currentTime()
-			, at = stats.start + Math.ceil((now - stats.start) / length) * length
+			, at = Number(stats.start) + Math.ceil((now - stats.start) / length) * length
 		setTimeout(function () {
 			loopStart(Math.round((io.currentTime() - stats.start) / length), length);
 		}, at - io.currentTime());

@@ -1,59 +1,7 @@
 var _ = require('underscore')
-	, loops = []
 	, loopStats = { start: (new Date).getTime(), bpm: 100 }
-	, objects = []
-
-objects.push({ name: 'user-circle'
-	, type: 'circle'
-	, local: { x: 0.2, y: 0.2 }
-	, constructor: [ 0.2, 0.2, 10, '#FFF', true ]
-	});
-
-objects.push({ name: 'user-circle'
-	, type: 'circle'
-	, local: { x: 0.8, y: 0.8 }
-	, constructor: [ 0.8, 0.8, 10, '#FFF', true ]
-	});
-
-loops.push({ start: 0
-	, duration: 4 
-	, selector: '#background'
-	, animations: [ { start: 0
-		, duration: 4 
-		, keypoints: [ 
-			 [0.5, { 'color': '#262326', 'radius': 100 } ]
-			, [1, { 'color': '#131013', 'radius': 10 } ]
-			]
-		}
-	]
-});
-
-
-loops.push({ start: 0
-	, duration: 2
-	, selector: '.user-circle'
-	, animations: [ { start: 0
-		, duration: 2
-		, keypoints: [ 
-			 [0.95, { opacity: 0, 'radius': 100 }, { type: 'inOut', fn: 'exp' } ]
-			, [0.95, { opacity: 1, 'radius': 10 }, { type: 'inOut', fn: 'exp' } ]
-			]
-		}
-	]
-});
-
-loops.push({ start: 0
-	, duration: 4
-	, selector: '&star-gradient'
-	, animations: [ { start: 0
-		, duration: 4
-		, keypoints: [ 
-			 [0.5, { r2: 40 }, { type: 'inOut', fn: 'exp' } ]
-			, [0.95, { r2: 30 }, { type: 'inOut', fn: 'exp' } ]
-			]
-		}
-	]
-});
+	, scene = 0
+	, color = 0
 
 function setLoops(_loops) {
 	loops = _loops;
@@ -62,10 +10,10 @@ function setLoops(_loops) {
 
 function setLoopStats(_loopStats) {
 	if (_loopStats.start) {
-		loopStats.start = _loopStats.start;
+		loopStats.start = Number(_loopStats.start);
 	}
 	if (_loopStats.bpm) {
-		loopStats.bpm = _loopStats.bpm;
+		loopStats.bpm = Number(_loopStats.bpm);
 	}
 	sendLoopStats(sockets);
 }
@@ -89,18 +37,49 @@ function sendLoopStats(to) {
 
 var sockets
 
+function triggerNewColor(newColor, fade, at) {
+	color = newColor;
+	console.log('New color: ' + newColor + ' in: ' + (at - (new Date).getTime()));
+	sockets.emit('trigger-color', { color: newColor, fade: fade, at: at });
+}
+
+function triggerNewScene(newScene, at) {
+	scene = newScene;
+	console.log('New scene: ' + newScene + ' in: ' + (at - (new Date).getTime()));
+	sockets.emit('trigger-scene', { scene: newScene, at: at });
+}
+
 module.exports = {
 	register: function (app, io) {
-		app.locals.loops = loops;
-		app.locals.loopStats = loopStats;
-		app.locals.objects = objects;
+		app.locals.loopStats = function () { return loopStats; }
+		app.locals.scene = function () { return scene; }
+		app.locals.color = function () { return color; }
 		app.get('/admin', function (req, res) {
 			res.render('admin');
 		});
-		app.post('/loops', function (req, res) {
-			console.dir(req.params);
-			setLoops(req.params);
-			sendLoops(io.sockets);
+		app.post('/time/:start', function (req, res) {
+			if (Math.abs(req.params.start - loopStats.start) > 5) {
+				console.log('Start will be shifted: ' + (req.params.start - loopStats.start) + 'ms');
+				setLoopStats({ start: req.params.start });
+			}
+			res.end(JSON.stringify({ result: 'OK' }));
+		});
+		app.post('/scene/:scene/:at', function (req, res) {
+			var nScene = Number(req.params.scene)
+				, triggerAt = Number(req.params.at)
+			if (nScene !== scene) {
+				triggerNewScene(nScene, triggerAt);
+			}
+			res.end(JSON.stringify({ result: 'OK' }));
+		});
+		app.post('/color/:color/:at/:fade', function (req, res) {
+			var nColor = Number(req.params.color)
+				, fade = Number(req.params.fade)
+				, triggerAt = Number(req.params.at)
+			if (nColor !== color) {
+				triggerNewColor(nColor, fade, triggerAt);
+			}
+			res.end(JSON.stringify({ result: 'OK' }));
 		});
 		app.get('/loop-stats', function (req, res) {
 			res.end(JSON.stringify({ 'start': start, 'bpm': bpm }));
@@ -108,23 +87,11 @@ module.exports = {
 		sockets = io.sockets;
 	},
 	open: function (socket) {
-		socket.on('getLoops', function () {
-			sendLoops(socket);
-		});
 		socket.on('getLoopStats', function () {
 			sendLoopStats(socket);
 		});
-		socket.on('getObjects', function () {
-			sendObjects(socket);
-		});
-		socket.on('setLoops', function (_loops) {
-			setLoops(_loops);
-		});
 		socket.on('setLoopStats', function (_stats) {
 			setLoopStats(_stats);
-		});
-		socket.on('setObjects', function (_objects) {
-			setObjects(_objects);
 		});
 	}
 };

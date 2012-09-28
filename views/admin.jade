@@ -9,21 +9,11 @@ block content
 				a.btn.btn-success#bpm-tap(href='#') Tap
 			.span3
 				.input-append
-					input#bpm-input(type='text', data-href='/bpm', value=loopStats.bpm)
+					input#bpm-input(type='text', data-href='/bpm', value=loopStats().bpm)
 					span.add-on bpm
 	.row-fluid
 		.span3
 			h2 Settings
-			form#loops(action='/loops', method='POST')
-				.control-group
-					label.control-label(for='pulse-form') Loops
-					textarea#loops-form(rows='9', name='loops', size='11', type='text')=JSON.stringify(loops, null, '  ')
-				input(type='submit', value='Set')
-			form#loops(action='/objects', method='POST')
-				.control-group
-					label.control-label(for='objects-form') Objets
-					textarea#objects-form(rows='9', name='objects', size='11', type='text')=JSON.stringify(objects, null, '  ')
-				input(type='submit', value='Set')
 		.span9
 			#viewport.iphone
 				iframe#displayframe(height='480', width='320', src='/')
