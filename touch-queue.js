@@ -1,4 +1,5 @@
-var clicks = []
+var _ = require('underscore')
+	, clicks = []
 	, queueLength = 8
 	, loop = require('./loop-master')
 
