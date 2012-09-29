@@ -43,6 +43,10 @@ app.get('/', function (req, res) {
 	res.render('index');
 });
 
+app.get('/debug', function (req, res) {
+	res.render('index');
+});
+
 app.get('/overhead', function (req, res) {
 	res.render('overhead');
 });
