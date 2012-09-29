@@ -41,11 +41,17 @@ define(['connector'
 			updateColor(1);
 		}
 		else if (delay < fade) {
-			updateColor(delay);
+			if (delay < 1)
+				updateColor(1);
+			else
+				updateColor(delay);
 		}
 		else {
 			setTimeout(function () {
-				updateColor(fade);
+				if (fade < 1)
+					updateColor(1);
+				else
+					updateColor(fade);
 			}, delay - fade);
 		}
 	});
