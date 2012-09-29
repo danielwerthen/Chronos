@@ -21,11 +21,13 @@ app.configure(function () {
   app.use(express.cookieParser('A Tree in your hand is better than 5 birds in the forest.'));
   app.use(express.session());
   app.use(app.router);
+  app.use(require('less-middleware')({ src: __dirname + '/public-build' }));
+  app.use(express.static(path.join(__dirname, 'public-build')));
   //app.use(gzippo.staticGzip(path.join(__dirname, 'public-build')));
 	//app.use(gzippo.compress());
 });
 
-app.configure('development', function () {
+/*app.configure('development', function () {
   app.use(require('less-middleware')({ src: __dirname + '/public' }));
   app.use(express.static(path.join(__dirname, 'public')));
 	app.use(express.errorHandler());
@@ -34,9 +36,9 @@ app.configure('development', function () {
 app.configure('production', function () {
   app.use(require('less-middleware')({ src: __dirname + '/public' }));
   app.use(express.static(path.join(__dirname, 'public')));
-  /*app.use(require('less-middleware')({ src: __dirname + '/public-build' }));
-  app.use(express.static(path.join(__dirname, 'public-build')));*/
-});
+  app.use(require('less-middleware')({ src: __dirname + '/public-build' }));
+  app.use(express.static(path.join(__dirname, 'public-build')));
+});*/
 
 app.get('/', function (req, res) {
 	res.render('index');

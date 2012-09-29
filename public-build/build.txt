@@ -3,33 +3,33 @@ css/admin.css
 ----------------
 css/admin.css
 
-css/bootstrap.min.css
+css/bootstrap-responsive.css
 ----------------
-css/bootstrap.min.css
+css/bootstrap-responsive.css
+
+css/bootstrap-responsive.min.css
+----------------
+css/bootstrap-responsive.min.css
 
 css/bootstrap.css
 ----------------
 css/bootstrap.css
 
-css/style.css
+css/bootstrap.min.css
 ----------------
-css/style.css
-
-css/bootstrap-responsive.css
-----------------
-css/bootstrap-responsive.css
-
-css/less/tests/css-tests.css
-----------------
-css/less/tests/css-tests.css
+css/bootstrap.min.css
 
 css/less/bootstrap.css
 ----------------
 css/less/bootstrap.css
 
-css/bootstrap-responsive.min.css
+css/less/tests/css-tests.css
 ----------------
-css/bootstrap-responsive.min.css
+css/less/tests/css-tests.css
+
+css/style.css
+----------------
+css/style.css
 
 js/main.js
 ----------------
@@ -37,6 +37,10 @@ js/jc.js
 js/_.js
 js/connector.js
 js/render-v2.js
+js/clock.js
+js/boom.js
+js/two-step.js
+js/pond.js
 js/scenario.js
 js/user.js
 js/main.js
@@ -53,6 +57,10 @@ js/_.js
 js/connector.js
 js/jc.js
 js/render-v2.js
+js/clock.js
+js/boom.js
+js/two-step.js
+js/pond.js
 js/scenario.js
 js/three.min.js
 js/overhead.js
