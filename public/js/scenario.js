@@ -107,7 +107,7 @@ define(['connector'
 			for (var i in scenes) {
 				var sc = scenes[i];
 				if (i == scene) {
-					if (!sc.IsLoaded || !sc.IsLoaded())
+					if (!sc.isLoaded || !sc.isLoaded())
 						sc.update(true);
 				}
 				else
