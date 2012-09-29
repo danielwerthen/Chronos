@@ -37,6 +37,9 @@ define([ 'connector'
 				if ( markers.length > 0) {
 					return;
 				}
+				if (needLoad) {
+					return;
+				}
 				var x = e.pageX / 2
 					, y = e.pageY / 2
 					, marker = jc.circle(x, y, 10, '#DDD', true).name('marker')
