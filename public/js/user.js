@@ -7,7 +7,11 @@ define([ 'connector'
 	var markers = [];
 	io.socket.on('trigger-push', function (data) {
 		setTimeout(function() {
-			try {
+			for (var i in markers) {
+				markers[i].piece.del();
+			}
+			markers = [];
+			/*try {
 				for (var i in markers) {
 					var marker = markers[i];
 					if (Math.abs(marker.point.x - data.point.x) < 0.1
@@ -18,7 +22,7 @@ define([ 'connector'
 				}
 			}
 			catch (e) {
-			}
+			}*/
 		}, data.at - io.currentTime());
 	});
 

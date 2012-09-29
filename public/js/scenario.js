@@ -8,7 +8,7 @@ define(['connector'
 	, 'jc' ]
 	, function (io, render, clock, boom, two, pond) {
 	var scene = 1 
-		, scenes = [ clock, two, pond, boom ]
+		, scenes = [ two, clock, pond, boom ]
 
 	io.socket.on('trigger-scene', function (data) {
 		var delay = data.at - io.currentTime();
