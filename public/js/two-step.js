@@ -36,6 +36,8 @@ define([ 'render-v2'
 		}
 	}
 	function updateColor(dur) {
+		if (dur == 0)
+			console.log(dur);
 		jc('.two-step').animate({ color: render.currentColor() }, dur);
 	}
 
