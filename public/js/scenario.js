@@ -10,9 +10,25 @@ define(['connector'
 	var scene = 1 
 		, scenes = [ clock, two, pond, boom ]
 
+	io.socket.on('sanity-check', function (data) {
+		var received = Number(data.scene) - 1;
+		if (received !== scene) {
+			console.log('got: ' + received + ' is: ' + scene);
+			scene = received;
+			drawScenes();
+			console.log('asylym sceneed');
+		}
+		var col = Number(data.color) - 1;
+		if (col !== render.currentColorId()) {
+			render.setColor(col);
+			updateColor(1);
+			console.log('asylym colored');
+		}
+	});
+
 	io.socket.on('trigger-scene', function (data) {
 		var delay = data.at - io.currentTime();
-		if (scene === data.scene) { return; }
+		if (scene === data.scene - 1) { return; }
 		if (delay < 10) {
 			scene = data.scene - 1;
 			if (scene < 0)
@@ -41,6 +57,9 @@ define(['connector'
 	io.socket.on('trigger-color', function (data) {
 		var delay = data.at - io.currentTime()
 			, fade = data.fade * 1000;
+		if (data.color - 1 !== render.currentColorId()) {
+			render.setColor(data.color - 1);
+		}
 		if (delay < 10) {
 			updateColor(1);
 		}

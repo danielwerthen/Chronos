@@ -41,13 +41,30 @@ function triggerNewColor(newColor, fade, at) {
 	color = newColor;
 	console.log('New color: ' + newColor + ' in: ' + (at - (new Date).getTime()));
 	sockets.emit('trigger-color', { color: newColor, fade: fade, at: at });
+	clearInterval(sanity);
+	clearTimeout(next);
+	next = setTimeout(function () {
+		sanity = setInterval(sanityCheck, 5000);
+	}, (at - (new Date).getTime()) + 500);
 }
 
 function triggerNewScene(newScene, at) {
 	scene = newScene;
 	console.log('New scene: ' + newScene + ' in: ' + (at - (new Date).getTime()));
 	sockets.emit('trigger-scene', { scene: newScene, at: at });
+	clearInterval(sanity);
+	clearTimeout(next);
+	next = setTimeout(function () {
+		sanity = setInterval(sanityCheck, 5000);
+	}, (at - (new Date).getTime()) + 500);
 }
+
+function sanityCheck() {
+	sockets.emit('sanity-check', { scene: scene, color: color });
+}
+
+var next = -1;
+var sanity = setInterval(sanityCheck, 5000);
 
 function scheduleLoop() {
 	var nextBeat

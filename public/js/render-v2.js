@@ -98,12 +98,6 @@ define(['connector'
 			return colors[colors.length - 1];
 		return colors[color];
 	}
-	io.socket.on('trigger-color', function (data) {
-		color = data.color - 1;
-		if (color < 0) {
-			color = 0;
-		}
-	});
 	return {
 		getBackground: function () { return background; }
 		, onInit: function (ev) { onInits.push(ev); }
@@ -113,5 +107,7 @@ define(['connector'
 		, width: function () { return width(); }
 		, height: function () { return height(); }
 		, currentColor: currentColor
+		, setColor: function (col) { color = col; }
+		, currentColorId: function () { return color; }
 	};
 });
