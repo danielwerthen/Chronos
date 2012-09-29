@@ -7,10 +7,12 @@ define([ 'connector'
 	var markers = [];
 	io.socket.on('trigger-push', function (data) {
 		setTimeout(function() {
-			for (var i in markers) {
-				markers[i].piece.del();
-			}
-			markers = [];
+			setTimeout(function () {
+				for (var i in markers) {
+					markers[i].piece.del();
+				}
+				markers = [];
+			}, data.at - io.currentTime());
 			/*try {
 				for (var i in markers) {
 					var marker = markers[i];
