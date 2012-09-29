@@ -26,6 +26,7 @@ define(['connector'
 	});
 
 	io.socket.on('trigger-push', function (data) {
+		console.log('trigger-push');
 		setTimeout(function () {
 		var boom = jc.circle(data.point.x * render.width(), data.point.y * render.height(), 0.01, '#FFF', true)
 			.animate({ radius: 300 * scale(), opacity: 0 }, 1600, { type: 'inOut', fn: 'exp' }, function () {
