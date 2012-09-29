@@ -76,7 +76,15 @@ define(['connector'
 		}
 	}
 	var color = 0
-		, colors = [ '#1359d1', '#ab13d1', '#5cedb3' ]
+		, colors = [ 'rgb(0,0,255)'
+		, 'rgb(255, 80, 0)'
+		, 'rgb(255, 255, 0)' 
+		, 'rgb(0, 255, 0)'
+		, 'rgb(0, 255, 221)'
+		, 'rgb(255, 0, 255)'
+		, 'rgb(117, 255, 4)'
+		, 'rgb(255, 0, 28)'
+		]
 	$(function () {
 		var contain = $('#container')
 		color = contain.data('color')
