@@ -64,6 +64,6 @@ define([ 'render-v2'
 		loop: loop
 	, update: update
 	, updateColor: updateColor
-	, isLoaded = function () { return loaded; }
+	, isLoaded: function () { return loaded; }
 	};
 });
