@@ -13,18 +13,12 @@ define([ 'render-v2'
 		return 1 / (window.innerWidth / render.width());
 	}
 
-	var everyOther = true;
 	function loop(nr, len) {
 		if (!boom) { return; }
-		if (everyOther) {
-			boom.animate({ radius: 1000, opacity: 0 }, len * 1.8, { type: 'out', fn: 'exp' }, function () {
-				boom.animate({ radius: 0.01, opacity: 1 }, 1);
-			});
-			everyOther = false;
-		}
-		else {
-			everyOther = true;
-		}
+		if (nr % 2 == 0) { return; }
+		boom.animate({ radius: 1000, opacity: 0 }, len * 1.8, { type: 'out', fn: 'exp' }, function () {
+			boom.animate({ radius: 0.01, opacity: 1 }, 1);
+		});
 	}
 	function update(create) {
 		if (create)
