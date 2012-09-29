@@ -40,13 +40,13 @@ var sockets
 function triggerNewColor(newColor, fade, at) {
 	color = newColor;
 	console.log('New color: ' + newColor + ' in: ' + (at - (new Date).getTime()));
-	sockets.emit('trigger-color', { color: newColor - 1, fade: fade, at: at });
+	sockets.emit('trigger-color', { color: newColor, fade: fade, at: at });
 }
 
 function triggerNewScene(newScene, at) {
 	scene = newScene;
 	console.log('New scene: ' + newScene + ' in: ' + (at - (new Date).getTime()));
-	sockets.emit('trigger-scene', { scene: newScene - 1, at: at });
+	sockets.emit('trigger-scene', { scene: newScene, at: at });
 }
 
 function scheduleLoop() {

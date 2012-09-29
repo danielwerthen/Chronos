@@ -14,7 +14,9 @@ define(['connector'
 		var delay = data.at - io.currentTime();
 		if (scene === data.scene) { return; }
 		if (delay < 10) {
-			scene = data.scene;
+			scene = data.scene - 1;
+			if (scene < 0)
+				scene = 0;
 			drawScenes();
 		}
 		else {
