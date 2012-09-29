@@ -14,7 +14,7 @@ function push(len, stop) {
 	for (var i in clicks) {
 		push(len + (i * (len / 8)));
 	}
-	if (stop) {
+	if (!stop) {
 		setTimeout(function () {
 			push(len, true);
 		}, len);
@@ -23,6 +23,9 @@ function push(len, stop) {
 
 loop.onLoop(function (nr, len) {
 	push(len / 2);
+	setTimeout(function () {
+		push(len / 2);
+	}, len / 2);
 });
 
 function limit(x) {

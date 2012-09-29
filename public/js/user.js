@@ -7,18 +7,18 @@ define([ 'connector'
 	var markers = [];
 	io.socket.on('trigger-push', function (data) {
 		setTimeout(function() {
-		try {
-			for (var i in markers) {
-				var marker = markers[i];
-				if (marker.point.x == data.point.x
-					&& marker.point.y == data.point.y) {
-						markers.splice(i, 1);
-						marker.piece.del();
+			try {
+				for (var i in markers) {
+					var marker = markers[i];
+					if (Math.abs(marker.point.x - data.point.x) < 0.1
+						&& Math.abs(marker.point.y - data.point.y) < 0.1) {
+							markers.splice(i, 1);
+							marker.piece.del();
+					}
 				}
 			}
-		}
-		catch (e) {
-		}
+			catch (e) {
+			}
 		}, data.at - io.currentTime());
 	});
 
