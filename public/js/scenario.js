@@ -104,6 +104,9 @@ define(['connector'
 
 	function run () {
 		render.onLoop(function (nr, len) {
+			for (var i in scenes) {
+				scenes[i].update(i == scene);
+			}
 			runScene(nr, len);
 			markers(len);
 			setTimeout(function () {
@@ -113,9 +116,9 @@ define(['connector'
 	}
 
 	function drawScenes() {
-		for (var i in scenes) {
+		/*for (var i in scenes) {
 			scenes[i].update(i == scene);
-		}
+		}*/
 	}
 
 	function runScene(nr, len) {
