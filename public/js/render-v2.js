@@ -98,7 +98,10 @@ define(['connector'
 		return colors[color];
 	}
 	io.socket.on('trigger-color', function (data) {
-		color = data.color;
+		color = data.color - 1;
+		if (color < 0) {
+			color = 0;
+		}
 	});
 	return {
 		getBackground: function () { return background; }

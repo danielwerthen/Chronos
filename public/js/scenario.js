@@ -21,7 +21,9 @@ define(['connector'
 		}
 		else {
 			setTimeout(function () {
-				scene = data.scene;
+				scene = data.scene - 1;
+				if (scene < 0)
+					scene = 0;
 				drawScenes();
 			}, delay - 50);
 		}
