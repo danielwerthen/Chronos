@@ -23,8 +23,7 @@ app.configure(function () {
   app.use(app.router);
   app.use(require('less-middleware')({ src: __dirname + '/public-build' }));
   app.use(express.static(path.join(__dirname, 'public-build')));
-  //app.use(gzippo.staticGzip(path.join(__dirname, 'public-build')));
-	//app.use(gzippo.compress());
+
 });
 
 /*app.configure('development', function () {
