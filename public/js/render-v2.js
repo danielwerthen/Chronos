@@ -84,6 +84,7 @@ define(['connector'
 		, '#FD01FF'
 		, '#75FC04'
 		, '#FE021C'
+		, '#131013'
 		]
 	$(function () {
 		var contain = $('#container')
