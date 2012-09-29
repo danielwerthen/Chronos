@@ -21,11 +21,10 @@ define([ 'render-v2'
 		});
 	}
 	function update(create) {
+		jc('.boom').del();
 		if (create)
 			boom = jc.circle(x(0.66), y(0.66), 0.01, render.currentColor(), true)
 				.name('boom')
-		else
-			jc('.boom').del();
 	}
 	function updateColor(dur) {
 		jc('.boom').animate({ color: render.currentColor() }, dur);

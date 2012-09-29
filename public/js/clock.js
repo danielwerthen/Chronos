@@ -60,6 +60,7 @@ define([ 'render-v2'
 	}
 
 	function update(create) {
+		jc('.clock').del();
 		if (create) {
 			tr = drawRect(x(0), y(0), render.width() * 0.3, render.height() * 0.3, render.currentColor())
 				.animate({ opacity: 0 }, 1)
@@ -69,9 +70,6 @@ define([ 'render-v2'
 				.animate({ opacity: 0 }, 1)
 			bl = drawRect(x(0.7), y(0.7), render.width() * 0.3, render.height() * 0.3, render.currentColor())
 				.animate({ opacity: 0 }, 1)
-		}
-		else {
-			jc('.clock').del();
 		}
 	}
 

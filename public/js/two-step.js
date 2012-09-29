@@ -25,14 +25,12 @@ define([ 'render-v2'
 		}, (len * (3 / 8)));
 	}
 	function update(create) {
+		jc('.two-step').del();
 		if (create) {
 			big = jc.circle(x(0.6), y(0.4), 0.01, render.currentColor(), true)
 				.name('two-step');
 			small = jc.circle(x(0.4), y(0.6), 0.01, render.currentColor(), true)
 				.name('two-step');
-		}
-		else {
-			jc('.two-step').del();
 		}
 	}
 	function updateColor(dur) {
