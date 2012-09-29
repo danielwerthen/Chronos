@@ -36,6 +36,7 @@ define([ 'render-v2'
 		}, 2 * (len / 8));
 	}
 	function update(create) {
+		jc('.pond').del();
 		if (create) {
 			var px = 0.3 + Math.random() * 0.4
 				, py = 0.3 + Math.random() * 0.4
@@ -50,9 +51,6 @@ define([ 'render-v2'
 			p3 = jc.circle(x(px + 0.5 * vx), y(py + 0.5 * vy), 0.01, render.currentColor(), true)
 				.name('pond')
 				.animate({ opacity: 0.9 }, 1)
-		}
-		else {
-			jc('.pond').del();
 		}
 	}
 	function updateColor(dur) {
