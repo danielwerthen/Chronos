@@ -29,7 +29,6 @@ define([ 'render-v2'
 			});
 		}, (len / 8));
 		setTimeout(function () {
-			console.log('anima');
 			p3.animate({ radius: 300, opacity: 0 }, len / 0.65, { type: 'out', fn: 'exp' }, function () {
 				this.animate({ radius: 0.01, opacity: 0.9, x: x(px + 0.5 * vx), y: y(py + 0.5 * vy) }, 1);
 			});
