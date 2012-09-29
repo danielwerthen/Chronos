@@ -36,6 +36,7 @@ define([ 'render-v2'
 		}, 2 * (len / 8));
 	}
 	function update(create) {
+		if (nr % 2 != 0) { return; }
 		jc('.pond').del();
 		if (create) {
 			var px = 0.3 + Math.random() * 0.4
