@@ -75,6 +75,23 @@ define(['connector'
 			onLoops[i](nr, len);
 		}
 	}
+	var color = 0
+		, colors = [ '#1359d1', '#ab13d1', '#5cedb3' ]
+	$(function () {
+		var contain = $('#container')
+		color = contain.data('color')
+		scene = contain.data('scene')
+	});
+	function currentColor() {
+		if (color < 0)
+			return colors[0];
+		if (color >= colors.length)
+			return colors[colors.length - 1];
+		return colors[color];
+	}
+	io.socket.on('trigger-color', function (data) {
+		color = data.color;
+	});
 	return {
 		getBackground: function () { return background; }
 		, onInit: function (ev) { onInits.push(ev); }
@@ -83,5 +100,6 @@ define(['connector'
 		, init: init
 		, width: function () { return width(); }
 		, height: function () { return height(); }
+		, currentColor: currentColor
 	};
 });
