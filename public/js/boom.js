@@ -20,12 +20,15 @@ define([ 'render-v2'
 			boom.animate({ radius: 0.01, opacity: 1 }, 1);
 		});
 	}
+	var loaded = false;
 	function update(create) {
-		if (nr % 2 == 0) { return; }
 		jc('.boom').del();
-		if (create)
+		loaded = false;
+		if (create) {
 			boom = jc.circle(x(0.66), y(0.66), 0.01, render.currentColor(), true)
-				.name('boom')
+				.name('boom');
+			loaded = true;
+		}
 	}
 	function updateColor(dur) {
 		jc('.boom').animate({ color: render.currentColor() }, dur);
@@ -35,5 +38,6 @@ define([ 'render-v2'
 		loop: loop
 	, update: update
 	, updateColor: updateColor
+	, isLoaded = function () { return loaded; }
 	};
 });

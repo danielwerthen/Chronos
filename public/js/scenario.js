@@ -105,7 +105,13 @@ define(['connector'
 	function run () {
 		render.onLoop(function (nr, len) {
 			for (var i in scenes) {
-				scenes[i].update(i == scene);
+				var sc = scenes[i];
+				if (i == scene) {
+					if (sc.IsLoaded && !sc.IsLoaded())
+						sc.update(true);
+				}
+				else
+					sc.update(false);
 			}
 			runScene(nr, len);
 			markers(len);

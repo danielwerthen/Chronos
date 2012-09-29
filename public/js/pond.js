@@ -35,9 +35,10 @@ define([ 'render-v2'
 			});
 		}, 2 * (len / 8));
 	}
+	var loaded = false;
 	function update(create) {
-		if (nr % 2 != 0) { return; }
 		jc('.pond').del();
+		loaded = false;
 		if (create) {
 			var px = 0.3 + Math.random() * 0.4
 				, py = 0.3 + Math.random() * 0.4
@@ -52,6 +53,7 @@ define([ 'render-v2'
 			p3 = jc.circle(x(px + 0.5 * vx), y(py + 0.5 * vy), 0.01, render.currentColor(), true)
 				.name('pond')
 				.animate({ opacity: 0.9 }, 1)
+			loaded = true;
 		}
 	}
 	function updateColor(dur) {
@@ -62,5 +64,6 @@ define([ 'render-v2'
 		loop: loop
 	, update: update
 	, updateColor: updateColor
+	, isLoaded = function () { return loaded; }
 	};
 });
