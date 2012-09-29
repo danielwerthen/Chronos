@@ -13,16 +13,13 @@ define(['connector'
 	io.socket.on('sanity-check', function (data) {
 		var received = Number(data.scene) - 1;
 		if (received !== scene) {
-			console.log('got: ' + received + ' is: ' + scene);
 			scene = received;
 			drawScenes();
-			console.log('asylym sceneed');
 		}
 		var col = Number(data.color) - 1;
 		if (col !== render.currentColorId()) {
 			render.setColor(col);
 			updateColor(1);
-			console.log('asylym colored');
 		}
 	});
 
